@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Filósofos en el Tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1209;
+  --ink2: #3d2f1a;
+  --ink3: #7a6145;
+  --gold: #c9a84c;
+  --gold2: #e8c97a;
+  --gold3: #f5e8c0;
+  --parch: #faf6ee;
+  --parch2: #f2ead8;
+  --parch3: #e8dcc0;
+  --dark: #0e0b06;
+  --dark2: #1c1508;
+  --accent: #8b3a1a;
+  --accent2: #b85c2a;
+  --teal: #2a5c5a;
+  --teal2: #3d8a85;
+  --radius: 3px;
+  --ff-serif: 'Playfair Display', Georgia, serif;
+  --ff-body: 'Crimson Pro', 'Georgia', serif;
+  --ff-ui: 'Inter', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--parch);
+  font-family: var(--ff-body);
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem 6rem;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, #2a1f0a 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, #1a0e04 0%, transparent 60%),
+    #0e0b06;
+  z-index: 0;
+}
+
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--gold2);
+  animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--op1, 0.2); transform: scale(1); }
+  50% { opacity: var(--op2, 0.8); transform: scale(1.3); }
+}
+
+.hero-ornament {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: rotate 60s linear infinite;
+}
+.hero-ornament::before {
+  content: '';
+  position: absolute;
+  inset: 30px;
+  border: 1px solid rgba(201,168,76,0.05);
+  border-radius: 50%;
+}
+.hero-ornament::after {
+  content: '';
+  position: absolute;
+  inset: 60px;
+  border: 1px solid rgba(201,168,76,0.04);
+  border-radius: 50%;
+}
+
+@keyframes rotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+.hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+.hero-eyebrow {
+  font-family: var(--ff-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.hero-title {
+  font-family: var(--ff-serif);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--gold2);
+  text-shadow: 0 0 80px rgba(201,168,76,0.25);
+  margin-bottom: 0.3rem;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--parch);
+  display: block;
+  font-size: 0.6em;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem auto;
+  justify-content: center;
+}
+
+.hero-divider span {
+  display: block;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+
+.hero-divider i { color: var(--gold); font-size: 0.6rem; }
+
+.hero-lead {
+  font-family: var(--ff-body);
+  font-size: 1.15rem;
+  font-weight: 300;
+  color: var(--parch3);
+  line-height: 1.85;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  font-style: italic;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-n {
+  font-family: var(--ff-serif);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  display: block;
+}
+
+.stat-l {
+  font-family: var(--ff-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  color: rgba(201,168,76,0.5);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(201,168,76,0.4);
+  font-family: var(--ff-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50% { opacity: 0.8; transform: scaleY(1); }
+}
+
+/* ── TIMELINE BAR (sticky) ── */
+.timeline-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(14,11,6,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+  padding: 0 2rem;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.timeline-nav::-webkit-scrollbar { display: none; }
+
+.timeline-inner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-width: max-content;
+  height: 50px;
+}
+
+.era-pill {
+  padding: 0 1.2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: var(--ff-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.45);
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.era-pill:hover, .era-pill.active {
+  color: var(--gold2);
+  border-bottom-color: var(--gold);
+}
+
+/* ── CONTROLS ── */
+.controls-bar {
+  background: rgba(14,11,6,0.6);
+  border-bottom: 1px solid rgba(201,168,76,0.08);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 50px;
+  z-index: 99;
+  backdrop-filter: blur(8px);
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 4px;
+  color: var(--parch);
+  font-family: var(--ff-ui);
+  font-size: 0.82rem;
+  padding: 0.45rem 1rem 0.45rem 2.4rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input::placeholder { color: rgba(201,168,76,0.3); }
+.search-input:focus { border-color: rgba(201,168,76,0.4); }
+
+.filter-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201,168,76,0.2);
+  font-family: var(--ff-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(201,168,76,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+}
+
+.chip:hover { color: var(--gold2); border-color: rgba(201,168,76,0.5); }
+.chip.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+.results-count {
+  margin-left: auto;
+  font-family: var(--ff-ui);
+  font-size: 0.7rem;
+  color: rgba(201,168,76,0.35);
+  white-space: nowrap;
+}
+
+/* ── MAIN LAYOUT ── */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem 6rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── TIMELINE LINE ── */
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 140px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(201,168,76,0.2) 5%,
+    rgba(201,168,76,0.2) 95%,
+    transparent 100%
+  );
+}
+
+/* ── ERA SECTION ── */
+.era-section {
+  margin-bottom: 5rem;
+}
+
+.era-heading {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-left: 0;
+}
+
+.era-num {
+  font-family: var(--ff-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: rgba(201,168,76,0.35);
+  writing-mode: horizontal-tb;
+  width: 140px;
+  text-align: right;
+  padding-right: 2rem;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.era-label {
+  font-family: var(--ff-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold2);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  padding-bottom: 0.4rem;
+  flex: 1;
+  letter-spacing: 0.02em;
+}
+
+.era-range {
+  font-family: var(--ff-ui);
+  font-size: 0.65rem;
+  color: rgba(201,168,76,0.35);
+  display: block;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ── PHILOSOPHER CARD ── */
+.phil-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.phil-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.phil-year {
+  width: 140px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-right: 2rem;
+  padding-top: 1.1rem;
+  font-family: var(--ff-ui);
+  font-size: 0.72rem;
+  color: rgba(201,168,76,0.4);
+  letter-spacing: 0.05em;
+  position: relative;
+}
+
+.phil-year::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 1.55rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.4);
+  background: var(--dark);
+  transform: translateX(50%);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.phil-row:hover .phil-year::after {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.phil-card {
+  flex: 1;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,168,76,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.phil-card:hover {
+  border-color: rgba(201,168,76,0.28);
+  background: rgba(201,168,76,0.04);
+  transform: translateX(4px);
+}
+
+.phil-card.expanded {
+  border-color: rgba(201,168,76,0.3);
+  background: rgba(201,168,76,0.04);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+}
+
+.card-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(201,168,76,0.2);
+  flex-shrink: 0;
+  background: rgba(201,168,76,0.06);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-avatar svg { width: 28px; height: 28px; color: rgba(201,168,76,0.3); }
+
+.card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%) sepia(20%);
+  transition: filter 0.3s;
+}
+.phil-card:hover .card-avatar img { filter: grayscale(0%) sepia(10%); }
+
+.card-info { flex: 1; min-width: 0; }
+
+.card-name {
+  font-family: var(--ff-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--parch);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.card-sub {
+  font-family: var(--ff-ui);
+  font-size: 0.68rem;
+  color: rgba(201,168,76,0.45);
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  font-family: var(--ff-ui);
+  font-size: 0.58rem;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.tag-transgre { background: rgba(184,92,42,0.15); color: #e8a87c; border: 1px solid rgba(184,92,42,0.3); }
+.tag-criticado { background: rgba(139,58,26,0.12); color: #e07070; border: 1px solid rgba(139,58,26,0.3); }
+.tag-tema { background: rgba(201,168,76,0.08); color: rgba(201,168,76,0.65); border: 1px solid rgba(201,168,76,0.15); }
+.tag-school { background: rgba(42,92,90,0.15); color: #7ececa; border: 1px solid rgba(42,92,90,0.4); }
+
+.card-arrow {
+  font-size: 1rem;
+  color: rgba(201,168,76,0.25);
+  transition: transform 0.25s, color 0.2s;
+  padding-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+.phil-card.expanded .card-arrow { transform: rotate(90deg); color: var(--gold); }
+.phil-card:hover .card-arrow { color: rgba(201,168,76,0.6); }
+
+/* ── EXPANDED DETAIL ── */
+.card-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.phil-card.expanded .card-detail { max-height: 700px; }
+
+.detail-inner {
+  padding: 0 1.2rem 1.2rem;
+  border-top: 1px solid rgba(201,168,76,0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+  margin-top: 0;
+}
+
+.detail-block { }
+.detail-block.full { grid-column: 1 / -1; }
+
+.detail-label {
+  font-family: var(--ff-ui);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+  display: block;
+  margin-bottom: 4px;
+  margin-top: 0.8rem;
+}
+
+.detail-text {
+  font-family: var(--ff-body);
+  font-size: 0.95rem;
+  color: var(--parch3);
+  line-height: 1.7;
+}
+
+.detail-obras {
+  font-style: italic;
+  color: rgba(250,246,238,0.55);
+}
+
+.detail-text strong { color: var(--gold2); font-weight: 600; }
+
+/* ── QUOTE RIBBON ── */
+.quote-ribbon {
+  margin: 3rem 0;
+  padding: 2.5rem 3rem;
+  border-left: 3px solid var(--gold);
+  background: rgba(201,168,76,0.04);
+  border-radius: 0 6px 6px 0;
+  margin-left: 140px;
+}
+
+.quote-ribbon blockquote {
+  font-family: var(--ff-serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--parch3);
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.quote-ribbon cite {
+  font-family: var(--ff-ui);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+  font-style: normal;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  border-top: 1px solid rgba(201,168,76,0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-logo {
+  font-family: var(--ff-serif);
+  font-size: 1.4rem;
+  color: var(--gold);
+  opacity: 0.5;
+  margin-bottom: 0.5rem;
+}
+
+.footer-sub {
+  font-family: var(--ff-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: rgba(201,168,76,0.2);
+  text-transform: uppercase;
+}
+
+/* ── BACK TO TOP ── */
+#backTop {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.25);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s, background 0.2s;
+  font-size: 1rem;
+}
+
+#backTop.show { opacity: 1; transform: translateY(0); }
+#backTop:hover { background: rgba(201,168,76,0.25); }
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--gold), var(--accent2));
+  z-index: 999;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .timeline::before { left: 0; }
+  .phil-year { width: 0; padding: 0; overflow: hidden; }
+  .era-num { display: none; }
+  .phil-year::after { display: none; }
+  .detail-inner { grid-template-columns: 1fr; }
+  .quote-ribbon { margin-left: 0; padding: 1.5rem; }
+  .timeline-nav { display: none; }
+  .controls-bar { top: 0; }
+  .hero-ornament { width: 300px; height: 300px; }
+}
+
+/* ── HIDDEN ── */
+.era-section.hidden, .phil-row.hidden { display: none; }
+
+/* ── ORNAMENTAL SVG glyphs ── */
+.glyph {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  margin: 0 6px;
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars" id="stars"></div>
+  <div class="hero-ornament"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Catálogo Universal</p>
+    <h1 class="hero-title">
+      Filósofos
+      <em>en el Tiempo</em>
+    </h1>
+
+    <div class="hero-divider">
+      <span></span>
+      <div class="glyph"></div>
+      <span></span>
+    </div>
+
+    <p class="hero-lead">
+      De Tales de Mileto a Žižek. Un recorrido por los hombres y mujeres
+      que se atrevieron a preguntar lo que nadie quería responder,
+      desde el siglo VI a.C. hasta hoy.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-n">65</span><span class="stat-l">Filósofos</span></div>
+      <div class="stat"><span class="stat-n">26</span><span class="stat-l">Siglos</span></div>
+      <div class="stat"><span class="stat-n">9</span><span class="stat-l">Eras</span></div>
+      <div class="stat"><span class="stat-n">∞</span><span class="stat-l">Preguntas</span></div>
+    </div>
+  </div>
+
+  <a href="#catalogue" class="hero-scroll">
+    <div class="scroll-arrow"></div>
+    Explorar
+  </a>
+</section>
+
+<!-- ══ STICKY TIMELINE NAV ══ -->
+<nav class="timeline-nav" id="timelineNav">
+  <div class="timeline-inner" id="eraNav"></div>
+</nav>
+
+<!-- ══ CONTROLS ══ -->
+<div class="controls-bar">
+  <div class="search-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input class="search-input" type="text" placeholder="Buscar filósofo, escuela, concepto…" id="searchInput">
+  </div>
+  <div class="filter-chips">
+    <button class="chip active" data-f="todos">Todos</button>
+    <button class="chip" data-f="transgresores">Transgresores</button>
+    <button class="chip" data-f="criticados">Muy criticados</button>
+  </div>
+  <div class="results-count" id="resultsCount">65 filósofos</div>
+</div>
+
+<!-- ══ CATALOGUE ══ -->
+<main class="main" id="catalogue">
+  <div class="timeline" id="timeline"></div>
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">Φ</div>
+  <p class="footer-sub">Filósofos en el Tiempo &nbsp;·&nbsp; Un catálogo universal &nbsp;·&nbsp; 624 a.C. – Siglo XXI</p>
+</footer>
+
+<button id="backTop" title="Volver arriba" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* ══ DATA ══ */
+const QUOTES = [
+  { q: "La vida no examinada no merece ser vivida.", a: "Sócrates" },
+  { q: "El hombre es la medida de todas las cosas.", a: "Protágoras" },
+  { q: "Dios ha muerto. Y nosotros lo hemos matado.", a: "Friedrich Nietzsche" },
+  { q: "Todo lo que es real es racional, y todo lo que es racional es real.", a: "Hegel" },
+  { q: "El infierno son los demás.", a: "Jean-Paul Sartre" },
+  { q: "Hay que imaginarse a Sísifo feliz.", a: "Albert Camus" },
+  { q: "De lo que no se puede hablar, hay que callar.", a: "Wittgenstein" },
+  { q: "No se nace mujer: se llega a serlo.", a: "Simone de Beauvoir" },
+];
+
+const ERAS = [
+  { id: "presocratica", label: "Antigüedad Presocrática", range: "siglos VII–V a.C." },
+  { id: "clasica", label: "Antigüedad Clásica", range: "siglos V–IV a.C." },
+  { id: "helenistica", label: "Antigüedad Helenística & Roma", range: "siglos IV a.C.–II d.C." },
+  { id: "tardoantigua", label: "Antigüedad Tardía", range: "siglos II–VI d.C." },
+  { id: "medieval", label: "Filosofía Medieval", range: "siglos IX–XIV" },
+  { id: "renacimiento", label: "Renacimiento & Modernidad Temprana", range: "siglos XV–XVI" },
+  { id: "moderna", label: "Modernidad & Ilustración", range: "siglos XVII–XVIII" },
+  { id: "xix", label: "Siglo XIX", range: "1800–1900" },
+  { id: "xx_xxi", label: "Siglo XX & XXI", range: "1900 – presente" },
+];
+
+const PHILOSOPHERS = [
+  { name:"Tales de Mileto",        year:-624, era:"presocratica", origin:"Grecia · Mileto",        school:"Escuela Milesia",               transgressor:true,  criticado:false, obras:["Sin escritos directos"],                                ideas:"Propuso el agua como principio de todo. Primer pensador que intentó explicar la naturaleza sin recurrir a los mitos.",                                                   influencia:"Inauguró el pensamiento racional occidental. Padre de la filosofía.", tags:["Cosmología","Naturalismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Thales_of_Miletus.jpg/800px-Thales_of_Miletus.jpg" },
+  { name:"Pitágoras",              year:-570, era:"presocratica", origin:"Grecia · Samos",          school:"Pitagorismo",                   transgressor:true,  criticado:true,  obras:["Sin escritos directos"],                                ideas:"Los números como esencia del cosmos. Fundó una comunidad casi religiosa con rituales matemáticos secretos.",                                                           influencia:"Influyó en Platón, el neoplatonismo y la tradición matemática filosófica.", tags:["Matemática","Mística","Cosmología"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kapitolinischer_Pythagoras_adjusted.jpg/800px-Kapitolinischer_Pythagoras_adjusted.jpg" },
+  { name:"Heráclito",              year:-535, era:"presocratica", origin:"Grecia · Éfeso",          school:"Presocrática",                  transgressor:true,  criticado:true,  obras:["Sobre la naturaleza (fragmentos)"],                     ideas:"Todo fluye (panta rhei). El fuego como principio y la realidad como conflicto perpetuo de opuestos. Oscuro por elección.",                                             influencia:"Padre del pensamiento dialéctico. Influyó en Hegel, Nietzsche, Heidegger.", tags:["Cambio","Dialéctica","Logos"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Heraclitus_Hendrick_ter_Brugghen.jpg/800px-Heraclitus_Hendrick_ter_Brugghen.jpg" },
+  { name:"Parménides",             year:-515, era:"presocratica", origin:"Grecia · Elea",           school:"Escuela Eleática",             transgressor:true,  criticado:false, obras:["Sobre la naturaleza"],                                  ideas:"El ser es, el no-ser no es. La realidad es una, inmutable y eterna. El cambio es ilusión de los sentidos.",                                                            influencia:"Fundó la ontología. Influyó directamente en Platón y toda la metafísica.", tags:["Ontología","Ser","Metafísica"], img:"" },
+  { name:"Demócrito",              year:-460, era:"presocratica", origin:"Grecia · Abdera",         school:"Atomismo",                     transgressor:true,  criticado:false, obras:["Microcosmos (fragmentos)"],                             ideas:"Todo está formado por átomos y vacío. Materialismo radical sin necesidad de dioses ni causas sobrenaturales.",                                                          influencia:"Anticipó la física moderna. Influyó en Epicuro, Lucrecio y la ciencia natural.", tags:["Atomismo","Materialismo","Física"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Democritus.jpg/800px-Democritus.jpg" },
+  { name:"Sócrates",               year:-470, era:"clasica",      origin:"Grecia · Atenas",         school:"Socrática",                    transgressor:true,  criticado:true,  obras:["Sin escritos (conocido por Platón y Jenofonte)"],       ideas:"Solo sé que no sé nada. La filosofía como diálogo y examen de la propia vida. Condenado a muerte por corromper a la juventud.",                                        influencia:"El eje de toda la filosofía occidental posterior. Sin Sócrates no hay Platón.", tags:["Ética","Mayéutica","Virtud"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Socrate_du_Louvre.jpg/800px-Socrate_du_Louvre.jpg" },
+  { name:"Platón",                 year:-428, era:"clasica",      origin:"Grecia · Atenas",         school:"Platonismo",                   transgressor:true,  criticado:true,  obras:["República","Fedón","El Banquete","Timeo","Fedro"],      ideas:"El mundo sensible como copia del mundo de las Ideas eternas. El filósofo-rey. El alma inmortal. Fundó la Academia.",                                                   influencia:"Whitehead: toda la filosofía occidental es una nota al pie de Platón.", tags:["Idealismo","Política","Metafísica"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Plato_Silanion_Musei_Capitolini_MC1377.jpg/800px-Plato_Silanion_Musei_Capitolini_MC1377.jpg" },
+  { name:"Aristóteles",            year:-384, era:"clasica",      origin:"Grecia · Estagira",       school:"Peripatética",                 transgressor:false, criticado:true,  obras:["Metafísica","Ética a Nicómaco","Política","Poética"],  ideas:"Empirismo, lógica formal, ética de la virtud, teoría hilemórfica. Sistematizó casi todo el saber griego.",                                                             influencia:"El Filósofo por antonomasia. Dominó el pensamiento medieval cristiano, árabe y judío.", tags:["Lógica","Ética","Empirismo","Política"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/800px-Aristotle_Altemps_Inv8575.jpg" },
+  { name:"Epicuro",                year:-341, era:"helenistica",  origin:"Grecia · Samos",          school:"Epicureísmo",                  transgressor:true,  criticado:true,  obras:["Carta a Meneceo","Carta a Heródoto"],                  ideas:"La ataraxia (tranquilidad) como fin de la vida. Sin miedo a la muerte: cuando ella está, yo no estoy.",                                                                influencia:"Influyó en el utilitarismo, el pensamiento secular y la ética moderna.", tags:["Hedonismo","Ética","Ateísmo práctico"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Epikouros_BM_1843.jpg/800px-Epikouros_BM_1843.jpg" },
+  { name:"Zenón de Citio",         year:-334, era:"helenistica",  origin:"Grecia · Chipre",         school:"Estoicismo",                   transgressor:false, criticado:false, obras:["Sin escritos completos"],                               ideas:"Virtud como único bien verdadero. Indiferencia ante lo externo. Vivir conforme a la naturaleza y la razón.",                                                            influencia:"Marco Aurelio, Séneca, Epicteto. El estoicismo es viral hoy como filosofía práctica.", tags:["Estoicismo","Ética","Virtud"], img:"" },
+  { name:"Cicerón",                year:-106, era:"helenistica",  origin:"Roma",                    school:"Eclecticismo / Estoicismo",    transgressor:false, criticado:false, obras:["De República","De los deberes","Tusculanas"],          ideas:"Derecho natural, ley moral universal, dignidad humana. Gran transmisor de la filosofía griega al mundo latino.",                                                        influencia:"Padre del humanismo cívico. Influyó en los Padres de la Iglesia y los ilustrados.", tags:["Humanismo","Derecho natural","Política"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/M-T-Cicero.jpg/800px-M-T-Cicero.jpg" },
+  { name:"Lucrecio",               year:-99,  era:"helenistica",  origin:"Roma",                    school:"Epicureísmo / Atomismo",       transgressor:true,  criticado:true,  obras:["De rerum natura"],                                     ideas:"Universo materialista sin dioses activos. La religión como fuente de terror y violencia. Anticipó la ciencia moderna en verso.",                                         influencia:"Redescubierto en el Renacimiento, influyó en Galileo, Newton, Gassendi.", tags:["Materialismo","Ateísmo","Naturalismo"], img:"" },
+  { name:"Marco Aurelio",          year:121,  era:"helenistica",  origin:"Roma",                    school:"Estoicismo",                   transgressor:false, criticado:false, obras:["Meditaciones"],                                        ideas:"Filosofía como práctica diaria. El deber, la razón, la muerte como parte natural. Escrito para sí mismo, nunca para publicar.",                                         influencia:"Uno de los libros más leídos de filosofía práctica hasta hoy.", tags:["Estoicismo","Ética","Autosuperación"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/MSR-ra-61-b-1-Marco_Aurelio.jpg/800px-MSR-ra-61-b-1-Marco_Aurelio.jpg" },
+  { name:"Plotino",                year:204,  era:"tardoantigua", origin:"Egipto / Roma",           school:"Neoplatonismo",                transgressor:true,  criticado:false, obras:["Enéadas"],                                             ideas:"El Uno como principio absoluto del que emana toda realidad por procesión. Mística racional.",                                                                           influencia:"Influyó profundamente en el misticismo cristiano, islámico y judío.", tags:["Mística","Neoplatonismo","Metafísica"], img:"" },
+  { name:"Agustín de Hipona",      year:354,  era:"tardoantigua", origin:"Norte de África / Roma",  school:"Neoplatonismo cristiano",      transgressor:true,  criticado:true,  obras:["Confesiones","La Ciudad de Dios"],                     ideas:"Fe y razón convergentes. El tiempo como creación divina. El libre albedrío y el origen del mal.",                                                                       influencia:"Teólogo más influyente del cristianismo occidental. Formó la escolástica.", tags:["Teología","Libre albedrío","Metafísica"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Sandro_Botticelli_050.jpg/800px-Sandro_Botticelli_050.jpg" },
+  { name:"Avicena (Ibn Sina)",     year:980,  era:"medieval",     origin:"Persia · actual Irán",   school:"Aristotelismo islámico",       transgressor:true,  criticado:true,  obras:["Libro de la curación","Libro del alma"],               ideas:"El 'hombre volante', precursor del cogito cartesiano. Reconcilió aristotelismo con el islam. Médico y filósofo total.",                                                  influencia:"Transmitió Aristóteles a Europa. Influyó decisivamente en Tomás de Aquino.", tags:["Metafísica","Alma","Medicina"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Avicenna-miniatur.jpg/800px-Avicenna-miniatur.jpg" },
+  { name:"Averroes (Ibn Rushd)",   year:1126, era:"medieval",     origin:"España · Córdoba",       school:"Aristotelismo",                transgressor:true,  criticado:true,  obras:["Comentarios a Aristóteles","Incoherencia de la incoherencia"], ideas:"Razón y fe son compatibles pero separables. Doble verdad. Naturalismo radical. Los averroístas fueron perseguidos.",                                                    influencia:"Renovó el aristotelismo en Europa. Gran transmisor entre mundos.", tags:["Razón","Fe","Aristotelismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Averroes_with_Porphyry_15C_miniature.jpg/800px-Averroes_with_Porphyry_15C_miniature.jpg" },
+  { name:"Tomás de Aquino",        year:1225, era:"medieval",     origin:"Italia · Aquino",        school:"Escolástica / Tomismo",        transgressor:false, criticado:true,  obras:["Suma Teológica","Suma contra gentiles"],               ideas:"Síntesis fe cristiana–filosofía aristotélica. Las cinco vías para demostrar la existencia de Dios.",                                                                    influencia:"Filosofía oficial de la Iglesia Católica. Influyó en toda la metafísica occidental.", tags:["Metafísica","Teología","Escolástica"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Carlo_Crivelli_007.jpg/800px-Carlo_Crivelli_007.jpg" },
+  { name:"Guillermo de Ockham",    year:1287, era:"medieval",     origin:"Inglaterra",             school:"Nominalismo",                  transgressor:true,  criticado:true,  obras:["Suma de lógica"],                                      ideas:"La navaja de Ockham: no multiplicar entidades sin necesidad. Los universales son solo nombres. Separó fe de razón.",                                                    influencia:"Padre del empirismo moderno. Influyó en Hume y la ciencia experimental.", tags:["Empirismo","Lógica","Nominalismo"], img:"" },
+  { name:"Nicolás Maquiavelo",     year:1469, era:"renacimiento", origin:"Italia · Florencia",     school:"Realismo político",            transgressor:true,  criticado:true,  obras:["El Príncipe","Discursos sobre Tito Livio"],            ideas:"El fin justifica los medios. La política separada de la moral religiosa. El poder como objeto de análisis científico.",                                                  influencia:"Fundador de la ciencia política moderna. Odiado y admirado desde hace 500 años.", tags:["Política","Poder","Realismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Santi_di_Tito_-_Niccolo_Machiavelli%27s_portrait.jpg/800px-Santi_di_Tito_-_Niccolo_Machiavelli%27s_portrait.jpg" },
+  { name:"Erasmo de Rotterdam",    year:1469, era:"renacimiento", origin:"Países Bajos",           school:"Humanismo",                    transgressor:true,  criticado:true,  obras:["Elogio de la locura","El libre albedrío"],             ideas:"Crítica satírica a la Iglesia y los teólogos. Humanismo cristiano. Reformador sin romper con Roma.",                                                                    influencia:"Preparó el terreno de la Reforma Protestante. Criticado por Lutero y la Iglesia.", tags:["Humanismo","Religión","Crítica social"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Holbein-erasmus.jpg/800px-Holbein-erasmus.jpg" },
+  { name:"Giordano Bruno",         year:1548, era:"renacimiento", origin:"Italia · Nola",          school:"Panteísmo / Cosmología",       transgressor:true,  criticado:true,  obras:["De la causa, principio y uno","Sobre el infinito universo"], ideas:"Universo infinito con infinitos mundos. Dios como alma del universo. Quemado vivo por la Inquisición en 1600.",                                                             influencia:"Mártir de la libertad de pensamiento. Precursor de la cosmología moderna.", tags:["Panteísmo","Cosmología","Mártir"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Giordano_Bruno_Campo_dei_Fiori.jpg/800px-Giordano_Bruno_Campo_dei_Fiori.jpg" },
+  { name:"Francis Bacon",          year:1561, era:"renacimiento", origin:"Inglaterra",             school:"Empirismo",                    transgressor:true,  criticado:false, obras:["Novum Organum","La gran instauración"],                ideas:"El método inductivo. El saber es poder. Identifica los ídolos del pensamiento que distorsionan el conocimiento.",                                                        influencia:"Padre del empirismo científico y del método experimental moderno.", tags:["Empirismo","Método científico","Conocimiento"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Francis_Bacon%2C_Viscount_St_Alban_from_NPG_%283%29.jpg/800px-Francis_Bacon%2C_Viscount_St_Alban_from_NPG_%283%29.jpg" },
+  { name:"René Descartes",         year:1596, era:"moderna",      origin:"Francia",                school:"Racionalismo",                 transgressor:true,  criticado:true,  obras:["Meditaciones metafísicas","Discurso del método"],      ideas:"Cogito ergo sum. Duda metódica como método. Dualismo mente-cuerpo. Fundó la filosofía moderna sobre la certeza del yo pensante.",                                       influencia:"El punto de partida de toda la filosofía moderna occidental.", tags:["Racionalismo","Dualismo","Epistemología"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg/800px-Frans_Hals_-_Portret_van_Ren%C3%A9_Descartes.jpg" },
+  { name:"Thomas Hobbes",          year:1588, era:"moderna",      origin:"Inglaterra",             school:"Contractualismo / Materialismo",transgressor:true,  criticado:true,  obras:["Leviatán"],                                            ideas:"El hombre es lobo del hombre. El estado de naturaleza es guerra de todos contra todos. Soberanía absoluta como solución.",                                               influencia:"Fundador de la filosofía política moderna y la teoría del estado.", tags:["Política","Contractualismo","Materialismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Thomas_Hobbes_%28portrait%29.jpg/800px-Thomas_Hobbes_%28portrait%29.jpg" },
+  { name:"Baruch Spinoza",         year:1632, era:"moderna",      origin:"Países Bajos · Ámsterdam",school:"Racionalismo / Panteísmo",   transgressor:true,  criticado:true,  obras:["Ética demostrada según el orden geométrico","Tratado teológico-político"], ideas:"Deus sive Natura: Dios es la Naturaleza. Sin libre albedrío real. Crítica radical de la Biblia. Excomulgado a los 23 años.",                                               influencia:"Nietzsche lo llamó su precursor. Influyó en Einstein, Hegel y toda la modernidad.", tags:["Panteísmo","Determinismo","Ética"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Spinoza.jpg/800px-Spinoza.jpg" },
+  { name:"John Locke",             year:1632, era:"moderna",      origin:"Inglaterra",             school:"Empirismo / Liberalismo",      transgressor:true,  criticado:true,  obras:["Ensayo sobre el entendimiento humano","Dos tratados sobre el gobierno civil"], ideas:"La mente como tabula rasa. Derechos naturales: vida, libertad, propiedad. Separación de poderes.",                                                                        influencia:"Padre del liberalismo político. Influyó en la Revolución Americana y Francesa.", tags:["Empirismo","Liberalismo","Derechos"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/JohnLocke.png/800px-JohnLocke.png" },
+  { name:"Gottfried W. Leibniz",   year:1646, era:"moderna",      origin:"Alemania · Leipzig",     school:"Racionalismo",                 transgressor:false, criticado:true,  obras:["Monadología","Nuevos ensayos sobre el entendimiento"],  ideas:"Mónadas como unidades últimas de realidad. Este es el mejor de los mundos posibles (satirizado por Voltaire en Cándido).",                                              influencia:"Lógica matemática, cálculo infinitesimal (independiente de Newton).", tags:["Racionalismo","Metafísica","Lógica"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Gottfried_Wilhelm_von_Leibniz.jpg/800px-Gottfried_Wilhelm_von_Leibniz.jpg" },
+  { name:"Voltaire",               year:1694, era:"moderna",      origin:"Francia · París",        school:"Ilustración / Deísmo",         transgressor:true,  criticado:true,  obras:["Cándido","Diccionario filosófico","Cartas filosóficas"], ideas:"Crítica feroz al fanatismo religioso, la Iglesia y la superstición. Defensor de la razón, la tolerancia y los derechos.",                                                influencia:"El intelectual comprometido por excelencia. Formó la opinión ilustrada en Europa.", tags:["Ilustración","Tolerancia","Crítica religiosa"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Nicolas_de_Largilli%C3%A8re%2C_Voltaire.jpg/800px-Nicolas_de_Largilli%C3%A8re%2C_Voltaire.jpg" },
+  { name:"David Hume",             year:1711, era:"moderna",      origin:"Escocia · Edimburgo",    school:"Empirismo / Escepticismo",     transgressor:true,  criticado:true,  obras:["Tratado de la naturaleza humana","Investigación sobre el entendimiento humano"], ideas:"No podemos conocer la causalidad real, solo costumbre. No hay yo permanente. Crítica radical a la religión y los milagros.",                                               influencia:"Despertó a Kant de su 'sueño dogmático'. Fundacional para la filosofía analítica.", tags:["Escepticismo","Empirismo","Causalidad"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hume.jpg/800px-Hume.jpg" },
+  { name:"Jean-Jacques Rousseau",  year:1712, era:"moderna",      origin:"Ginebra / Francia",      school:"Contractualismo / Romanticismo",transgressor:true,  criticado:true,  obras:["El contrato social","Emilio","Discurso sobre la desigualdad"], ideas:"El hombre es bueno por naturaleza, la sociedad lo corrompe. La voluntad general. La educación natural.",                                                                   influencia:"Influyó en la Revolución Francesa, el romanticismo y el pensamiento pedagógico.", tags:["Naturaleza humana","Política","Educación"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Jean-Jacques_Rousseau_%28painted_portrait%29.jpg/800px-Jean-Jacques_Rousseau_%28painted_portrait%29.jpg" },
+  { name:"Immanuel Kant",          year:1724, era:"moderna",      origin:"Alemania · Königsberg",  school:"Idealismo trascendental",      transgressor:true,  criticado:true,  obras:["Crítica de la razón pura","Crítica de la razón práctica","Fundamentación de la metafísica de las costumbres"], ideas:"El imperativo categórico. Las categorías del entendimiento como condición del conocimiento. La cosa en sí es incognoscible.",                                             influencia:"El filósofo más influyente de la modernidad. Todo lo posterior se define en relación a Kant.", tags:["Ética","Epistemología","Metafísica","Deber"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Immanuel_Kant_%28painted_portrait%29.jpg/800px-Immanuel_Kant_%28painted_portrait%29.jpg" },
+  { name:"G.W.F. Hegel",          year:1770, era:"xix",          origin:"Alemania · Stuttgart",   school:"Idealismo absoluto",           transgressor:true,  criticado:true,  obras:["Fenomenología del espíritu","Ciencia de la lógica","Filosofía del derecho"], ideas:"La dialéctica tesis–antítesis–síntesis. El Espíritu Absoluto en la historia. Lo real es racional y lo racional es real.",                                                  influencia:"Influyó en Marx, Nietzsche, Kierkegaard, Sartre, la Escuela de Frankfurt.", tags:["Dialéctica","Historia","Espíritu"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Hegel_portrait_by_Schlesinger_1831.jpg/800px-Hegel_portrait_by_Schlesinger_1831.jpg" },
+  { name:"Arthur Schopenhauer",    year:1788, era:"xix",          origin:"Alemania · Danzig",      school:"Pesimismo / Voluntarismo",     transgressor:true,  criticado:true,  obras:["El mundo como voluntad y representación"],              ideas:"El mundo como representación de una Voluntad ciega y sin sentido. El sufrimiento como esencia de la vida. Arte y ascetismo como redención.",                              influencia:"Nietzsche, Freud, Wagner, Wittgenstein, el budismo filosófico occidental.", tags:["Pesimismo","Voluntad","Arte","Sufrimiento"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Arthur_Schopenhauer_by_Johann_Schäfer%2C_1859b.jpg/800px-Arthur_Schopenhauer_by_Johann_Schäfer%2C_1859b.jpg" },
+  { name:"Auguste Comte",          year:1798, era:"xix",          origin:"Francia · Montpellier",  school:"Positivismo",                  transgressor:true,  criticado:true,  obras:["Curso de filosofía positiva"],                          ideas:"Los tres estadios del pensamiento: teológico, metafísico, positivo (científico). Solo el conocimiento verificable es válido.",                                             influencia:"Padre del positivismo y la sociología como ciencia.", tags:["Positivismo","Ciencia","Sociología"], img:"" },
+  { name:"John Stuart Mill",       year:1806, era:"xix",          origin:"Inglaterra · Londres",   school:"Utilitarismo / Liberalismo",   transgressor:true,  criticado:true,  obras:["Sobre la libertad","El utilitarismo","La sujeción de la mujer"], ideas:"El mayor bien para el mayor número. Defensa radical de la libertad individual y de la igualdad de género.",                                                                influencia:"Padre del liberalismo moderno y el utilitarismo político.", tags:["Utilitarismo","Libertad","Feminismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/John_Stuart_Mill_by_London_Stereoscopic_Co%2C_c1870.jpg/800px-John_Stuart_Mill_by_London_Stereoscopic_Co%2C_c1870.jpg" },
+  { name:"Søren Kierkegaard",      year:1813, era:"xix",          origin:"Dinamarca · Copenhague",  school:"Existencialismo",             transgressor:true,  criticado:true,  obras:["O lo uno o lo otro","El concepto de la angustia","Temor y temblor"], ideas:"La existencia precede a la esencia. Tres estadios: estético, ético, religioso. Crítica feroz a la razón hegeliana y a la Iglesia establecida.",                              influencia:"Padre del existencialismo. Influyó en Heidegger, Sartre, Camus, la teología dialéctica.", tags:["Existencialismo","Angustia","Fe","Subjetividad"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/S%C3%B8ren_Kierkegaard_%281813-1855%29.jpg/800px-S%C3%B8ren_Kierkegaard_%281813-1855%29.jpg" },
+  { name:"Karl Marx",              year:1818, era:"xix",          origin:"Alemania · Tréveris",    school:"Materialismo histórico",       transgressor:true,  criticado:true,  obras:["El manifiesto comunista","El capital","Tesis sobre Feuerbach"], ideas:"La historia como lucha de clases. La alienación del trabajo. La religión como opio del pueblo. Materialism histórico y dialéctico.",                                        influencia:"El filósofo más influyente en política del siglo XX. Revoluciones, estados, guerras.", tags:["Materialismo","Política","Economía","Revolución"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Karl_Marx_001.jpg/800px-Karl_Marx_001.jpg" },
+  { name:"Friedrich Nietzsche",    year:1844, era:"xix",          origin:"Alemania · Röcken",      school:"Vitalismo",                    transgressor:true,  criticado:true,  obras:["Así habló Zaratustra","Más allá del bien y del mal","El nacimiento de la tragedia"], ideas:"Dios ha muerto. El Superhombre. La voluntad de poder. El eterno retorno. Crítica total a la moral cristiana y la metafísica occidental.",                                 influencia:"Uno de los más influyentes y malinterpretados. Heidegger, Foucault, Deleuze, el existencialismo.", tags:["Vitalismo","Nihilismo","Poder","Crítica moral"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Nietzsche187a.jpg/800px-Nietzsche187a.jpg" },
+  { name:"Bertrand Russell",       year:1872, era:"xx_xxi",       origin:"Reino Unido · Gales",    school:"Filosofía analítica",          transgressor:true,  criticado:true,  obras:["Principia Mathematica","Por qué no soy cristiano"],    ideas:"Lógica como base de las matemáticas. Pacifismo, ateísmo militante, liberalismo. Premio Nobel de Literatura.",                                                              influencia:"Fundador de la filosofía analítica junto a Frege y Moore.", tags:["Lógica","Ateísmo","Pacifismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Bertrand_Russell_1957.jpg/800px-Bertrand_Russell_1957.jpg" },
+  { name:"Edmund Husserl",         year:1859, era:"xx_xxi",       origin:"Alemania · origen checo","school":"Fenomenología",             transgressor:true,  criticado:false, obras:["Ideas I","Investigaciones lógicas"],                    ideas:"Retorno a las cosas mismas. La intencionalidad de la conciencia. Epoché: suspensión del juicio natural.",                                                                  influencia:"Fundó la fenomenología. Heidegger, Merleau-Ponty, Sartre y Lévinas partieron de él.", tags:["Fenomenología","Conciencia","Método"], img:"" },
+  { name:"Max Weber",              year:1864, era:"xx_xxi",       origin:"Alemania · Erfurt",      school:"Filosofía social",             transgressor:false, criticado:true,  obras:["La ética protestante y el espíritu del capitalismo","Economía y sociedad"], ideas:"La racionalización del mundo moderno. El desencantamiento del mundo. Tipos de dominación legítima.",                                                                       influencia:"Uno de los padres de la sociología y la teoría política contemporánea.", tags:["Sociología","Política","Racionalidad"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Max_Weber_1894.jpg/800px-Max_Weber_1894.jpg" },
+  { name:"Martin Heidegger",       year:1889, era:"xx_xxi",       origin:"Alemania · Messkirch",   school:"Fenomenología / Ontología",    transgressor:true,  criticado:true,  obras:["Ser y tiempo","Carta sobre el humanismo","La pregunta por la técnica"], ideas:"La pregunta por el ser. Dasein como ser-en-el-mundo. El olvido del ser en la metafísica occidental. La técnica como peligro. Fue miembro del Partido Nazi.",                influencia:"El filósofo continental más influyente del siglo XX. Sartre, Gadamer, Derrida.", tags:["Ontología","Existencialismo","Fenomenología"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Martin_Heidegger.jpg/800px-Martin_Heidegger.jpg" },
+  { name:"Ludwig Wittgenstein",    year:1889, era:"xx_xxi",       origin:"Austria · Viena",        school:"Filosofía analítica",          transgressor:true,  criticado:true,  obras:["Tractatus Logico-Philosophicus","Investigaciones filosóficas"], ideas:"De lo que no se puede hablar, hay que callar. Los juegos de lenguaje. La filosofía como terapia. Tuvo dos filosofías opuestas.",                                            influencia:"Uno de los más influyentes del siglo XX. Cambió la filosofía del lenguaje dos veces.", tags:["Lenguaje","Lógica","Filosofía analítica"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Ludwig_Wittgenstein.jpg/800px-Ludwig_Wittgenstein.jpg" },
+  { name:"Walter Benjamin",        year:1892, era:"xx_xxi",       origin:"Alemania · Berlín",      school:"Marxismo / Teoría crítica",    transgressor:true,  criticado:false, obras:["La obra de arte en la época de su reproducción mecánica","Tesis sobre la filosofía de la historia"], ideas:"El aura de la obra de arte. La historia como ruinas. La redención de las víctimas del pasado.",                                                                       influencia:"Escuela de Frankfurt, estudios culturales, teoría del arte.", tags:["Arte","Historia","Marxismo"], img:"" },
+  { name:"Karl Popper",            year:1902, era:"xx_xxi",       origin:"Austria / Reino Unido",  school:"Filosofía de la ciencia",      transgressor:true,  criticado:true,  obras:["La lógica de la investigación científica","La sociedad abierta y sus enemigos"], ideas:"El falsacionismo: la ciencia avanza por refutaciones, no verificaciones. Crítica al historicismo marxista y al totalitarismo.",                                             influencia:"El filósofo de la ciencia más influyente del siglo XX.", tags:["Filosofía de la ciencia","Liberalismo","Falsacionismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Karl_Popper.jpg/800px-Karl_Popper.jpg" },
+  { name:"Jean-Paul Sartre",       year:1905, era:"xx_xxi",       origin:"Francia · París",        school:"Existencialismo",             transgressor:true,  criticado:true,  obras:["El ser y la nada","La náusea","El existencialismo es un humanismo"], ideas:"La existencia precede a la esencia. Estamos condenados a ser libres. El otro como infierno. Compromiso político radical.",                                                     influencia:"El existencialismo como movimiento cultural global. La filosofía como forma de vida.", tags:["Existencialismo","Libertad","Marxismo","Literatura"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Sartre.jpg/800px-Sartre.jpg" },
+  { name:"Hannah Arendt",          year:1906, era:"xx_xxi",       origin:"Alemania / Estados Unidos","school":"Filosofía política",       transgressor:true,  criticado:true,  obras:["Los orígenes del totalitarismo","La condición humana","Eichmann en Jerusalén"], ideas:"La banalidad del mal. La pluralidad como condición de lo político. El totalitarismo como novedad radical en la historia.",                                                    influencia:"La filósofa política más influyente del siglo XX.", tags:["Política","Totalitarismo","Mal","Acción"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Hannah_arendt-150.jpg/800px-Hannah_arendt-150.jpg" },
+  { name:"Simone de Beauvoir",     year:1908, era:"xx_xxi",       origin:"Francia · París",        school:"Existencialismo / Feminismo", transgressor:true,  criticado:true,  obras:["El segundo sexo","La ética de la ambigüedad"],         ideas:"No se nace mujer: se llega a serlo. La mujer como el Otro. La libertad como condición de la ética existencial.",                                                        influencia:"Madre del feminismo filosófico moderno.", tags:["Feminismo","Existencialismo","Ética","Género"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Simone_de_Beauvoir2.png/800px-Simone_de_Beauvoir2.png" },
+  { name:"Albert Camus",           year:1913, era:"xx_xxi",       origin:"Argelia / Francia",      school:"Absurdismo",                  transgressor:true,  criticado:true,  obras:["El mito de Sísifo","El extranjero","El hombre rebelde"], ideas:"La vida es absurda, pero hay que vivir. La rebelión como respuesta. Contra el nihilismo y el suicidio filosófico.",                                                          influencia:"Premio Nobel. El filósofo del absurdo. Rival de Sartre, amigo de la humanidad.", tags:["Absurdismo","Rebelión","Existencia","Literatura"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Albert_Camus%2C_gagnant_de_prix_Nobel%2C_portrait_en_buste%2C_pos%C3%A9_au_bureau%2C_faisant_face_%C3%A0_gauche%2C_cigarette_de_tabagisme.jpg/800px-Albert_Camus%2C_gagnant_de_prix_Nobel%2C_portrait_en_buste%2C_pos%C3%A9_au_bureau%2C_faisant_face_%C3%A0_gauche%2C_cigarette_de_tabagisme.jpg" },
+  { name:"Theodor Adorno",         year:1903, era:"xx_xxi",       origin:"Alemania · Frankfurt",   school:"Teoría Crítica",              transgressor:true,  criticado:true,  obras:["Dialéctica de la Ilustración","Dialéctica negativa"],   ideas:"La razón ilustrada produce barbarie. La industria cultural como dominación. Escribir poesía después de Auschwitz es barbárico.",                                            influencia:"Escuela de Frankfurt, estudios culturales, filosofía del arte contemporáneo.", tags:["Crítica cultural","Arte","Marxismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Adorno.jpg/800px-Adorno.jpg" },
+  { name:"Michel Foucault",        year:1926, era:"xx_xxi",       origin:"Francia · Poitiers",     school:"Postestructuralismo",         transgressor:true,  criticado:true,  obras:["Las palabras y las cosas","Vigilar y castigar","Historia de la sexualidad"], ideas:"El poder produce saber. El sujeto es construcción histórica. Genealogía del poder. Biopolítica como control de la vida.",                                                    influencia:"El más citado en ciencias sociales. Estudios de género, raza, poder, salud.", tags:["Poder","Saber","Biopoder","Sujeto"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Foucault5.jpg/800px-Foucault5.jpg" },
+  { name:"John Rawls",             year:1921, era:"xx_xxi",       origin:"Estados Unidos · Baltimore","school":"Filosofía política liberal",transgressor:false,criticado:true, obras:["Teoría de la justicia","El liberalismo político"],     ideas:"La justicia como equidad. El velo de ignorancia: principios que elegiríamos sin saber quiénes somos.",                                                                    influencia:"El filósofo político más influyente de la segunda mitad del siglo XX.", tags:["Justicia","Liberalismo","Política","Ética"], img:"" },
+  { name:"Jürgen Habermas",        year:1929, era:"xx_xxi",       origin:"Alemania · Düsseldorf",  school:"Teoría Crítica",              transgressor:false, criticado:true,  obras:["La teoría de la acción comunicativa"],                  ideas:"La razón comunicativa como alternativa a la razón instrumental. La esfera pública y la democracia deliberativa.",                                                          influencia:"El heredero de la Escuela de Frankfurt. Referencia en filosofía política y social.", tags:["Comunicación","Democracia","Razón"], img:"" },
+  { name:"Gilles Deleuze",         year:1925, era:"xx_xxi",       origin:"Francia · París",        school:"Postestructuralismo",         transgressor:true,  criticado:true,  obras:["Diferencia y repetición","El anti-Edipo","Mil mesetas"], ideas:"La diferencia como primordial. Filosofía como creación de conceptos. El rizoma vs el árbol. El deseo como producción positiva.",                                              influencia:"Estudios culturales, arte, arquitectura, biopolítica, cine, literatura.", tags:["Deseo","Diferencia","Rizoma"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Gilles_Deleuze_in_1987.jpg/800px-Gilles_Deleuze_in_1987.jpg" },
+  { name:"Jacques Derrida",        year:1930, era:"xx_xxi",       origin:"Argelia / Francia",      school:"Deconstrucción",              transgressor:true,  criticado:true,  obras:["De la gramatología","La escritura y la diferencia"],   ideas:"La deconstrucción del logocentrismo. No hay nada fuera del texto. La différance. La metafísica de la presencia como ilusión.",                                             influencia:"Posmodernismo, estudios literarios, filosofía del derecho y arquitectura.", tags:["Deconstrucción","Lenguaje","Texto"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Jacques_derrida_European_Graduate_School.jpg/800px-Jacques_derrida_European_Graduate_School.jpg" },
+  { name:"Peter Singer",           year:1946, era:"xx_xxi",       origin:"Australia · Melbourne",  school:"Utilitarismo",                transgressor:true,  criticado:true,  obras:["Liberación animal","Ética práctica"],                  ideas:"Los animales tienen derechos morales. El altruismo efectivo: los ricos tienen obligación moral de dar hasta que duela.",                                                    influencia:"Movimiento de derechos animales, altruismo efectivo, ética aplicada.", tags:["Ética","Animales","Utilitarismo","Altruismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Singer_Peter.jpg/800px-Singer_Peter.jpg" },
+  { name:"Slavoj Žižek",           year:1949, era:"xx_xxi",       origin:"Eslovenia · Liubliana",  school:"Marxismo / Psicoanálisis",    transgressor:true,  criticado:true,  obras:["El sublime objeto de la ideología","En defensa de las causas perdidas"], ideas:"La ideología funciona incluso cuando la conocemos. Lo Real lacaniano. Capitalismo como ideología total. Provocación permanente.",                                              influencia:"El filósofo más mediático y provocador de principios del siglo XXI.", tags:["Marxismo","Ideología","Psicoanálisis","Cultura pop"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Slavoj_%C5%BDi%C5%BEek_in_Liverpool.jpg/800px-Slavoj_%C5%BDi%C5%BEek_in_Liverpool.jpg" },
+  { name:"Judith Butler",          year:1956, era:"xx_xxi",       origin:"Estados Unidos · Cleveland","school":"Teoría queer",           transgressor:true,  criticado:true,  obras:["El género en disputa","Cuerpos que importan"],          ideas:"El género como performance, no como esencia natural. La identidad como reiteración de normas sociales. Crítica al feminismo heteronormativo.",                             influencia:"Teoría queer, estudios de género, filosofía política feminista.", tags:["Género","Performance","Teoría queer","Feminismo"], img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Judith_Butler_%282013%29.jpg/800px-Judith_Butler_%282013%29.jpg" },
+  { name:"Martha Nussbaum",        year:1947, era:"xx_xxi",       origin:"Estados Unidos · Nueva York","school":"Liberalismo / Capacidades",transgressor:false,criticado:true,obras:["El ocultamiento de lo humano","Crear capacidades"],    ideas:"El enfoque de las capacidades humanas. Emociones como conocimiento moral. Justicia global.",                                                                              influencia:"Filosofía política, economía del desarrollo, teoría del derecho.", tags:["Ética","Capacidades","Justicia","Emociones"], img:"" },
+  { name:"Nick Bostrom",           year:1973, era:"xx_xxi",       origin:"Suecia / Reino Unido",   school:"Transhumanismo / Filosofía de la IA", transgressor:true, criticado:true, obras:["Superinteligencia","El argumento de la simulación"], ideas:"La IA como riesgo existencial. El argumento de la simulación. El transhumanismo y la mejora humana mediante tecnología.",                                                    influencia:"El pensamiento sobre riesgo existencial, IA y futurismo filosófico.", tags:["IA","Transhumanismo","Riesgo existencial","Futuro"], img:"" },
+];
+
+/* ══ BUILD STARS ══ */
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--delay:${(Math.random()*4).toFixed(1)}s;--op1:${(Math.random()*0.2+0.05).toFixed(2)};--op2:${(Math.random()*0.6+0.3).toFixed(2)}`;
+  starsContainer.appendChild(s);
+}
+
+/* ══ BUILD ERA NAV ══ */
+const eraNav = document.getElementById('eraNav');
+ERAS.forEach(e => {
+  const a = document.createElement('a');
+  a.className = 'era-pill';
+  a.href = '#era-' + e.id;
+  a.textContent = e.label;
+  a.dataset.era = e.id;
+  eraNav.appendChild(a);
+});
+
+/* ══ BUILD TIMELINE ══ */
+const timeline = document.getElementById('timeline');
+
+function buildTimeline(data) {
+  timeline.innerHTML = '';
+  let count = 0;
+
+  ERAS.forEach((era, ei) => {
+    const group = data.filter(p => p.era === era.id);
+    if (!group.length) return;
+
+    // Quote ribbon every 2 eras
+    if (ei > 0 && ei % 2 === 0 && data.length === PHILOSOPHERS.length) {
+      const q = QUOTES[(ei/2 - 1) % QUOTES.length];
+      const ribbon = document.createElement('div');
+      ribbon.className = 'quote-ribbon';
+      ribbon.innerHTML = `<blockquote>"${q.q}"</blockquote><cite>— ${q.a}</cite>`;
+      timeline.appendChild(ribbon);
+    }
+
+    const section = document.createElement('div');
+    section.className = 'era-section';
+    section.id = 'era-' + era.id;
+
+    section.innerHTML = `<div class="era-heading">
+      <div class="era-num">${era.range}</div>
+      <div>
+        <div class="era-label">${era.label}</div>
+      </div>
+    </div>`;
+
+    group.forEach((p, pi) => {
+      const row = document.createElement('div');
+      row.className = 'phil-row';
+      row.style.transitionDelay = `${pi * 0.04}s`;
+
+      const yLabel = p.year < 0 ? `${Math.abs(p.year)} a.C.` : `${p.year} d.C.`;
+      const avatarHtml = p.img
+        ? `<img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`
+        : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
+
+      const tagHtml = [
+        p.transgressor ? `<span class="tag tag-transgre">Transgresor</span>` : '',
+        p.criticado    ? `<span class="tag tag-criticado">Muy criticado</span>` : '',
+        `<span class="tag tag-school">${p.school}</span>`,
+        ...(p.tags || []).slice(0,3).map(t => `<span class="tag tag-tema">${t}</span>`)
+      ].join('');
+
+      row.innerHTML = `
+        <div class="phil-year">${yLabel}</div>
+        <div class="phil-card" data-id="${p.name}">
+          <div class="card-top">
+            <div class="card-avatar">${avatarHtml}</div>
+            <div class="card-info">
+              <div class="card-name">${p.name}</div>
+              <div class="card-sub">${p.origin}</div>
+              <div class="card-tags">${tagHtml}</div>
+            </div>
+            <div class="card-arrow">›</div>
+          </div>
+          <div class="card-detail">
+            <div class="detail-inner">
+              <div class="detail-block full">
+                <span class="detail-label">Ideas fundamentales</span>
+                <p class="detail-text">${p.ideas}</p>
+              </div>
+              <div class="detail-block">
+                <span class="detail-label">Obras principales</span>
+                <p class="detail-text detail-obras">${p.obras.join(' · ')}</p>
+              </div>
+              <div class="detail-block">
+                <span class="detail-label">Legado e influencia</span>
+                <p class="detail-text">${p.influencia}</p>
+              </div>
+            </div>
+          </div>
+        </div>`;
+
+      section.appendChild(row);
+      count++;
+    });
+
+    timeline.appendChild(section);
+  });
+
+  document.getElementById('resultsCount').textContent = `${count} filósofo${count !== 1 ? 's' : ''}`;
+  attachCardListeners();
+  observeRows();
+}
+
+/* ══ CARD TOGGLE ══ */
+function attachCardListeners() {
+  document.querySelectorAll('.phil-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isExp = card.classList.contains('expanded');
+      document.querySelectorAll('.phil-card.expanded').forEach(c => c.classList.remove('expanded'));
+      if (!isExp) card.classList.add('expanded');
+    });
+  });
+}
+
+/* ══ INTERSECTION OBSERVER ══ */
+function observeRows() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.phil-row').forEach(r => obs.observe(r));
+}
+
+/* ══ ERA NAV HIGHLIGHT ══ */
+const eraObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id.replace('era-', '');
+      document.querySelectorAll('.era-pill').forEach(p => p.classList.toggle('active', p.dataset.era === id));
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+/* ══ FILTER / SEARCH ══ */
+let activeFilter = 'todos';
+let searchTerm = '';
+
+document.querySelectorAll('.chip').forEach(ch => {
+  ch.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    ch.classList.add('active');
+    activeFilter = ch.dataset.f;
+    applyFilters();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.toLowerCase();
+  applyFilters();
+});
+
+function applyFilters() {
+  const result = PHILOSOPHERS.filter(p => {
+    const matchFilter =
+      activeFilter === 'todos' ||
+      (activeFilter === 'transgresores' && p.transgressor) ||
+      (activeFilter === 'criticados' && p.criticado);
+    const matchSearch = !searchTerm || [p.name, p.school, p.origin, p.ideas, ...(p.tags||[])].some(s =>
+      s && s.toLowerCase().includes(searchTerm)
+    );
+    return matchFilter && matchSearch;
+  });
+  buildTimeline(result);
+  // Re-observe eras
+  document.querySelectorAll('.era-section').forEach(s => eraObserver.observe(s));
+}
+
+/* ══ PROGRESS + BACK TOP ══ */
+const progressBar = document.getElementById('progress');
+const backTop = document.getElementById('backTop');
+
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = pct + '%';
+  backTop.classList.toggle('show', window.scrollY > 600);
+}, { passive: true });
+
+/* ══ INIT ══ */
+buildTimeline(PHILOSOPHERS);
+document.querySelectorAll('.era-section').forEach(s => eraObserver.observe(s));
+</script>
+</body>
+</html>
