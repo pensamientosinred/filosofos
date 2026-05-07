@@ -987,6 +987,7 @@ function buildTimeline(data) {
       row.style.transitionDelay = `${pi * 0.04}s`;
 
       const yLabel = p.year < 0 ? `${Math.abs(p.year)} a.C.` : `${p.year} d.C.`;
+      const pageMap = { "Tales de Mileto": "tales_mileto.html" };
       const avatarHtml = p.img
         ? `<img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">`
         : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>`;
@@ -1000,7 +1001,7 @@ function buildTimeline(data) {
 
       row.innerHTML = `
         <div class="phil-year">${yLabel}</div>
-        <div class="phil-card" data-id="${p.name}">
+        <div class="phil-card" data-id="${p.name}" ${pageMap[p.name] ? `data-href="${pageMap[p.name]}"` : ''}>
           <div class="card-top">
             <div class="card-avatar">${avatarHtml}</div>
             <div class="card-info">
@@ -1043,7 +1044,9 @@ function buildTimeline(data) {
 /* ══ CARD TOGGLE ══ */
 function attachCardListeners() {
   document.querySelectorAll('.phil-card').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      const href = card.dataset.href;
+      if (href) { window.location.href = href; return; }
       const isExp = card.classList.contains('expanded');
       document.querySelectorAll('.phil-card.expanded').forEach(c => c.classList.remove('expanded'));
       if (!isExp) card.classList.add('expanded');

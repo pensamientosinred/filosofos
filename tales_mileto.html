@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tales de Mileto · Filósofos en el Tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1a1209;--ink2:#3d2f1a;--ink3:#7a6145;
+  --gold:#c9a84c;--gold2:#e8c97a;--gold3:#f5e8c0;
+  --parch:#faf6ee;--parch2:#f2ead8;--parch3:#e8dcc0;
+  --dark:#0e0b06;--dark2:#1c1508;--dark3:#140f04;
+  --accent:#8b3a1a;--accent2:#b85c2a;
+  --teal:#2a5c5a;--teal2:#3d8a85;
+  --water:#1a3a5c;--water2:#2a5a8a;--water3:#4a8ab8;
+  --ff-serif:'Playfair Display',Georgia,serif;
+  --ff-body:'Crimson Pro',Georgia,serif;
+  --ff-ui:'Inter',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--parch);font-family:var(--ff-body);font-size:18px;line-height:1.75;overflow-x:hidden}
+
+/* NOISE */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--gold),var(--accent2));z-index:999;width:0;transition:width .1s linear}
+
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(14,11,6,0);transition:background .4s,border .4s;border-bottom:1px solid transparent}
+.topnav.scrolled{background:rgba(14,11,6,.92);backdrop-filter:blur(16px);border-bottom-color:rgba(201,168,76,.1)}
+.nav-logo{font-family:var(--ff-serif);font-size:.95rem;color:var(--gold);opacity:.7;text-decoration:none;letter-spacing:.03em}
+.nav-logo span{opacity:.5;margin:0 .4rem}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-link{font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,168,76,.45);text-decoration:none;transition:color .2s}
+.nav-link:hover,.nav-link.active{color:var(--gold2)}
+.nav-home{display:flex;align-items:center;gap:.4rem;color:rgba(201,168,76,.45);font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:color .2s}
+.nav-home:hover{color:var(--gold2)}
+.nav-home svg{width:12px;height:12px}
+
+/* HERO */
+.hero{position:relative;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 60%,#0d1e30 0%,#0e0b06 65%);z-index:0}
+
+/* Animated water / cosmos bg */
+.hero-canvas{position:absolute;inset:0;z-index:0;opacity:.5}
+canvas{width:100%;height:100%}
+
+.hero-img-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);z-index:1;width:420px;max-width:80vw;mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,0) 100%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,1) 40%,rgba(0,0,0,0) 100%)}
+.hero-img-wrap img{width:100%;display:block;filter:grayscale(30%) sepia(30%);opacity:.45}
+
+.hero-content{position:relative;z-index:2;max-width:760px;padding:0 2rem}
+.hero-era{font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:1rem}
+.hero-dates{font-family:var(--ff-ui);font-size:.7rem;letter-spacing:.2em;color:rgba(201,168,76,.5);margin-bottom:1.2rem}
+.hero-name{font-family:var(--ff-serif);font-size:clamp(3.5rem,9vw,7rem);font-weight:900;line-height:.95;color:var(--gold2);text-shadow:0 0 100px rgba(201,168,76,.2);margin-bottom:.2rem}
+.hero-name em{display:block;font-style:italic;font-size:.38em;font-weight:400;color:var(--parch3);letter-spacing:.06em;margin-top:.4rem}
+.hero-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.5rem 0}
+.hero-divider span{display:block;width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.hero-divider i{width:6px;height:6px;border:1px solid var(--gold);transform:rotate(45deg);display:block;opacity:.6}
+.hero-tagline{font-family:var(--ff-body);font-size:1.1rem;font-style:italic;color:var(--parch3);line-height:1.8;max-width:560px;margin:0 auto 2.5rem}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.pill{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.1em;padding:.3rem .9rem;border-radius:999px;border:1px solid;text-transform:uppercase}
+.pill-gold{border-color:rgba(201,168,76,.3);color:rgba(201,168,76,.65);background:rgba(201,168,76,.06)}
+.pill-water{border-color:rgba(42,90,138,.5);color:#7ab8e8;background:rgba(42,90,138,.12)}
+.pill-red{border-color:rgba(139,58,26,.4);color:#e8a87c;background:rgba(184,92,42,.1)}
+
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px;color:rgba(201,168,76,.35);font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+.scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,transparent,var(--gold));animation:spulse 2s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:.8;transform:scaleY(1)}}
+
+/* LAYOUT */
+.page{max-width:860px;margin:0 auto;padding:5rem 2rem 2rem;position:relative;z-index:1}
+
+/* SECTIONS */
+.section{margin-bottom:5rem}
+.section-label{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:.5rem;display:block}
+.section-title{font-family:var(--ff-serif);font-size:1.9rem;font-weight:700;color:var(--gold2);line-height:1.2;margin-bottom:1.5rem}
+.lead{font-family:var(--ff-body);font-size:1.08rem;color:var(--parch3);line-height:1.85}
+.lead p{margin-bottom:1.2rem}
+.lead p:last-child{margin-bottom:0}
+
+/* SEPARATOR */
+.sep{display:flex;align-items:center;gap:1rem;margin:3.5rem 0}
+.sep span{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.15),transparent)}
+.sep i{width:5px;height:5px;border:1px solid rgba(201,168,76,.35);transform:rotate(45deg);display:block}
+
+/* QUOTE BLOCK */
+.quote-block{padding:2rem 2.5rem;border-left:3px solid var(--gold);background:rgba(201,168,76,.04);border-radius:0 6px 6px 0;margin:2.5rem 0}
+.quote-block blockquote{font-family:var(--ff-serif);font-size:1.3rem;font-style:italic;color:var(--parch3);line-height:1.65;margin-bottom:.7rem}
+.quote-block cite{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.45);font-style:normal}
+
+/* TIMELINE BIO */
+.bio-timeline{position:relative;padding-left:2rem}
+.bio-timeline::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,.1))}
+.bio-item{position:relative;margin-bottom:2rem}
+.bio-dot{position:absolute;left:-2rem;top:4px;width:10px;height:10px;border-radius:50%;border:1px solid var(--gold);background:var(--dark);transform:translateX(calc(-50% + .5px));margin-left:-.5px}
+.bio-year{font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.15em;color:var(--gold);margin-bottom:.25rem}
+.bio-text{font-family:var(--ff-body);font-size:.98rem;color:var(--parch3);line-height:1.75}
+.bio-text strong{color:var(--parch);font-weight:600}
+
+/* IDEAS CARDS */
+.ideas-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+.idea-card{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);border-radius:8px;padding:1.4rem 1.5rem;transition:border-color .25s,background .25s}
+.idea-card:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.05)}
+.idea-icon{font-size:1.6rem;margin-bottom:.7rem;display:block}
+.idea-title{font-family:var(--ff-serif);font-size:1rem;font-weight:700;color:var(--gold2);margin-bottom:.5rem}
+.idea-text{font-family:var(--ff-body);font-size:.9rem;color:var(--parch3);line-height:1.7}
+
+/* WATER DIAGRAM */
+.water-diagram{margin:2rem 0;border:1px solid rgba(201,168,76,.1);border-radius:10px;overflow:hidden;background:rgba(10,20,35,.6)}
+.water-diagram svg{display:block;width:100%}
+
+/* IMAGE GRID */
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+.img-block{border-radius:8px;overflow:hidden;border:1px solid rgba(201,168,76,.12);background:rgba(201,168,76,.04)}
+.img-block img{width:100%;display:block;filter:grayscale(25%) sepia(20%);transition:filter .3s}
+.img-block:hover img{filter:grayscale(0%) sepia(10%)}
+.img-caption{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:.08em;color:rgba(201,168,76,.4);padding:.6rem .9rem;text-transform:uppercase}
+.img-block-full{border-radius:8px;overflow:hidden;border:1px solid rgba(201,168,76,.12);margin:1.5rem 0}
+.img-block-full img{width:100%;display:block;filter:grayscale(20%) sepia(15%)}
+.img-block-full .img-caption{padding:.7rem 1rem}
+
+/* RELEVANCE METER */
+.relevance{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.1);border-radius:10px;padding:1.8rem 2rem;margin:2rem 0}
+.rel-title{font-family:var(--ff-serif);font-size:1rem;font-weight:700;color:var(--gold2);margin-bottom:1.2rem}
+.rel-row{display:flex;align-items:center;gap:1rem;margin-bottom:.9rem}
+.rel-label{font-family:var(--ff-ui);font-size:.68rem;letter-spacing:.07em;color:var(--parch3);width:160px;flex-shrink:0}
+.rel-bar-wrap{flex:1;height:5px;background:rgba(201,168,76,.1);border-radius:999px;overflow:hidden}
+.rel-bar{height:100%;border-radius:999px;background:linear-gradient(to right,var(--gold),var(--accent2));width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.rel-val{font-family:var(--ff-ui);font-size:.62rem;color:rgba(201,168,76,.5);width:32px;text-align:right}
+
+/* OBRA */
+.obra-list{margin-top:1rem}
+.obra-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(201,168,76,.07)}
+.obra-item:last-child{border-bottom:none}
+.obra-n{font-family:var(--ff-serif);font-size:2rem;font-weight:900;color:rgba(201,168,76,.15);line-height:1;flex-shrink:0;width:2.5rem;text-align:center}
+.obra-body{}
+.obra-title{font-family:var(--ff-serif);font-size:1.05rem;font-style:italic;color:var(--parch);margin-bottom:.3rem}
+.obra-desc{font-family:var(--ff-body);font-size:.9rem;color:var(--parch3);line-height:1.7}
+
+/* COMPARATION */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-top:1.5rem}
+.compare-card{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.09);border-radius:8px;padding:1.2rem}
+.compare-who{font-family:var(--ff-serif);font-size:.95rem;font-weight:700;color:var(--gold2);margin-bottom:.3rem}
+.compare-arje{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:.5rem}
+.compare-text{font-family:var(--ff-body);font-size:.82rem;color:var(--parch3);line-height:1.65}
+
+/* VIGENCIA */
+.vigencia-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.vc{font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.08em;padding:.35rem 1rem;border-radius:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);color:rgba(201,168,76,.7)}
+
+/* ANECDOTES */
+.anec-block{margin-bottom:1.5rem;padding:1.2rem 1.5rem;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:8px}
+.anec-label{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:.4rem}
+.anec-text{font-family:var(--ff-body);font-size:.97rem;color:var(--parch3);line-height:1.75}
+
+/* BACK / NEXT NAV */
+.page-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0 2rem;border-top:1px solid rgba(201,168,76,.1)}
+.nav-btn{font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,.45);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s}
+.nav-btn:hover{color:var(--gold2)}
+
+/* FOOTER */
+footer{text-align:center;padding:3rem 2rem 4rem;border-top:1px solid rgba(201,168,76,.07);position:relative;z-index:1}
+.footer-phi{font-family:var(--ff-serif);font-size:2rem;color:var(--gold);opacity:.3;margin-bottom:.5rem}
+.footer-text{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.2)}
+
+/* BACK TOP */
+#btt{position:fixed;bottom:2rem;right:2rem;width:40px;height:40px;border-radius:50%;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s,background .2s;font-size:.9rem;font-family:var(--ff-ui)}
+#btt.show{opacity:1;transform:translateY(0)}
+#btt:hover{background:rgba(201,168,76,.22)}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:680px){
+  .ideas-grid,.img-grid,.compare-grid{grid-template-columns:1fr}
+  .hero-name{font-size:3.5rem}
+  .topnav{padding:.65rem 1rem}
+  .page{padding:4rem 1.2rem 2rem}
+  .rel-label{width:120px;font-size:.6rem}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav class="topnav" id="topnav">
+  <a href="index.html" class="nav-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    Índice
+  </a>
+  <a href="index.html" class="nav-logo">Filósofos<span>·</span>en el Tiempo</a>
+  <div class="nav-links">
+    <a href="#vida" class="nav-link">Vida</a>
+    <a href="#ideas" class="nav-link">Ideas</a>
+    <a href="#legado" class="nav-link">Legado</a>
+    <a href="#vigencia" class="nav-link">Vigencia</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-canvas"><canvas id="waterCanvas"></canvas></div>
+
+  <div class="hero-img-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Thales_of_Miletus.jpg/800px-Thales_of_Miletus.jpg" alt="Busto de Tales de Mileto" onerror="this.style.display='none'">
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-era">Antigüedad Presocrática · Escuela Milesia</p>
+    <p class="hero-dates">c. 624 a.C. — c. 546 a.C.</p>
+    <h1 class="hero-name">
+      Tales
+      <em>de Mileto</em>
+    </h1>
+    <div class="hero-divider"><span></span><i></i><span></span></div>
+    <p class="hero-tagline">
+      El primero que se atrevió a preguntar<br>
+      de qué está hecho el mundo<br>
+      <em>sin invocar a ningún dios.</em>
+    </p>
+    <div class="hero-pills">
+      <span class="pill pill-red">Padre de la Filosofía Occidental</span>
+      <span class="pill pill-water">Arjé = Agua</span>
+      <span class="pill pill-gold">Presocrático</span>
+      <span class="pill pill-gold">Matemático · Astrónomo</span>
+      <span class="pill pill-water">Mileto · Jonia · c. 624 a.C.</span>
+    </div>
+  </div>
+
+  <a href="#vida" class="hero-scroll">
+    <div class="scroll-line"></div>
+    leer
+  </a>
+</section>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+
+  <!-- QUIÉN FUE -->
+  <section class="section fade-in" id="vida">
+    <span class="section-label">I · Quién fue</span>
+    <h2 class="section-title">El hombre que miró el cielo y cayó en el pozo</h2>
+    <div class="lead">
+      <p>Tales de Mileto vivió en la ciudad de Mileto, en la costa jonia del Egeo —hoy Turquía—, en el siglo VI antes de Cristo. Fue comerciante, ingeniero, político, astrónomo, matemático y, sobre todo, el primer pensador del que tenemos registro que buscó una explicación <em>racional</em> del universo, sin apelar a los mitos ni a los dioses olímpicos.</p>
+      <p>No dejó ningún texto escrito. Todo lo que sabemos de él llega a través de otros: Aristóteles, que lo cita en la <em>Metafísica</em>; Diógenes Laercio, que le dedica un capítulo en sus <em>Vidas de los filósofos ilustres</em>; Heródoto, que menciona su predicción del eclipse. Es un personaje que existe casi enteramente en el eco que dejó.</p>
+      <p>Aristóteles lo llama directamente el <strong>iniciador de este tipo de filosofía</strong> —la búsqueda del principio material de todas las cosas— y con esa frase lo consagra para siempre. Antes de Tales, el cosmos era explicado por Hesíodo y Homero: dioses que creaban, luchaban, amaban y destruían. Después de Tales, el cosmos empieza a explicarse a sí mismo.</p>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>"Tales de Mileto sostuvo que el principio de todas las cosas es el agua."</blockquote>
+      <cite>— Aristóteles, Metafísica, Libro I</cite>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- CRONOLOGÍA -->
+  <section class="section fade-in">
+    <span class="section-label">II · Cronología</span>
+    <h2 class="section-title">Una vida entre el agua y las estrellas</h2>
+    <div class="bio-timeline">
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 624 a.C.</div>
+        <div class="bio-text"><strong>Nace en Mileto</strong>, ciudad comercial y cultural en la costa de Jonia. Mileto era entonces uno de los puertos más activos del Mediterráneo: cruce de culturas, mercancías e ideas de Egipto, Babilonia y Persia.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 600–580 a.C.</div>
+        <div class="bio-text"><strong>Viajes a Egipto.</strong> Aprende geometría práctica de los sacerdotes egipcios —cómo medir la altura de las pirámides con la sombra— y astronomía de los caldeos babilónicos. Absorbe el conocimiento práctico de civilizaciones milenarias y lo convierte en algo nuevo: teoría abstracta.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 585 a.C.</div>
+        <div class="bio-text"><strong>Predice el eclipse solar del 28 de mayo.</strong> Heródoto cuenta que la predicción puso fin a la guerra entre medos y lidios: al oscurecerse el sol durante la batalla, ambos ejércitos interpretaron el fenómeno como señal divina y pactaron la paz. Tales lo había calculado siguiendo ciclos astronómicos babilónicos. Es el primer hecho científicamente datado en la historia occidental.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 580 a.C.</div>
+        <div class="bio-text"><strong>Actividad política.</strong> Aconseja a las ciudades jonias unirse en una federación con capital en Teos para resistir la expansión persa. Idea estratégica que, lamentablemente, no prospera.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 570 a.C.</div>
+        <div class="bio-text"><strong>Formulación del arjé.</strong> Período de mayor actividad intelectual. Propone que el agua es el principio fundamental del cosmos. También demuestra teoremas geométricos y afirma que el imán tiene alma porque mueve al hierro —primera especulación sobre el magnetismo.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 550 a.C.</div>
+        <div class="bio-text"><strong>Funda la Escuela de Mileto</strong> junto a sus discípulos Anaximandro y Anaxímenes. Los tres conforman la primera comunidad filosófica de Occidente: el origen de lo que hoy llamamos filosofía natural y ciencia.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 546 a.C.</div>
+        <div class="bio-text"><strong>Muere en Mileto</strong>, según Diógenes Laercio, de calor y sed durante un espectáculo atlético. Tenía aproximadamente 78 años. Algunos dicen que murió mirando las estrellas. Nadie lo sabe con certeza.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- IMAGEN MOSAICO -->
+  <section class="section fade-in">
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Thales_of_Miletus.jpg/800px-Thales_of_Miletus.jpg" alt="Busto de Tales" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Busto romano · copia de original griego perdido</div>
+      </div>
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/School_of_Athens_by_Raffaello_Sanzio_da_Urbino.jpg/1280px-School_of_Athens_by_Raffaello_Sanzio_da_Urbino.jpg" alt="Escuela de Atenas" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">La Escuela de Atenas · Rafael · 1511 · Vaticano</div>
+      </div>
+    </div>
+    <div class="img-block-full">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Miletus_Bay_Antique.jpg/1280px-Miletus_Bay_Antique.jpg" alt="Mileto antiguo" loading="lazy" onerror="this.style.display='none'">
+      <div class="img-caption">Ruinas de Mileto · costa del Egeo · actual Turquía · la ciudad donde nació el pensamiento occidental</div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- IDEAS CENTRALES -->
+  <section class="section fade-in" id="ideas">
+    <span class="section-label">III · Pensamiento</span>
+    <h2 class="section-title">Las ideas que cambiaron todo</h2>
+    <div class="lead">
+      <p>Tales no dejó tratados. Pero las ideas que se le atribuyen son, cada una, una pequeña revolución. No por su contenido literal —hoy sabemos que el arjé no es el agua— sino por la <strong>estructura del pensamiento</strong>: buscar un principio único, natural, observable, racional. Eso era completamente nuevo.</p>
+    </div>
+
+    <div class="ideas-grid">
+      <div class="idea-card">
+        <span class="idea-icon">💧</span>
+        <div class="idea-title">El Arjé: el agua como principio</div>
+        <div class="idea-text">Todo lo que existe proviene del agua y vuelve al agua. La Tierra flota sobre el agua. La idea no es tan absurda: el agua es líquida, sólida y gaseosa; está en todo ser vivo; aparece en la gestación de todo. Tales la eligió como sustrato universal del cosmos.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🧠</span>
+        <div class="idea-title">La razón sobre el mito</div>
+        <div class="idea-text">Antes, el cosmos era creado por Poseidón, Zeus, Caos. Tales preguntó: ¿y si hay una causa natural, observable, sin dioses? Esa pregunta —aunque parezca simple— inauguró el pensamiento científico y filosófico occidental.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">📐</span>
+        <div class="idea-title">Geometría abstracta</div>
+        <div class="idea-text">Se le atribuyen cinco teoremas: el círculo bisecado por su diámetro, los ángulos en la base del triángulo isósceles, los ángulos opuestos por el vértice, el ángulo inscrito en un semicírculo (90°), y la semejanza de triángulos. Convirtió la geometría práctica egipcia en teoría universal.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🧲</span>
+        <div class="idea-title">El alma de los imanes</div>
+        <div class="idea-text">"El imán tiene alma porque mueve al hierro." Es la primera intuición registrada del animismo natural: si algo genera movimiento, tiene una fuerza interna. Errado como conclusión, genial como método: buscar causas en la naturaleza misma de las cosas.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🌑</span>
+        <div class="idea-title">Astronomía predictiva</div>
+        <div class="idea-text">Predijo el eclipse solar de 585 a.C. usando los ciclos astronómicos saros babilónicos, no la voluntad divina. Fue la primera predicción científica de la historia occidental documentada por fuentes externas (Heródoto).</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🌍</span>
+        <div class="idea-title">La Tierra como disco flotante</div>
+        <div class="idea-text">Imaginó la Tierra como un disco plano flotando sobre agua, como un tronco en el mar. Errónea en lo concreto, pero correcta en la audacia: buscar un soporte físico para la Tierra en lugar de apoyarla en un dios (como hacía Hesíodo sobre las espaldas de Atlas).</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- DIAGRAMA VISUAL -->
+  <section class="section fade-in">
+    <span class="section-label">IV · Cosmología</span>
+    <h2 class="section-title">El cosmos según Tales</h2>
+    <p class="lead" style="margin-bottom:1.5rem"><p>Su modelo del universo era simple y audaz: todo emerge del agua, la Tierra flota sobre ella, el cielo es la bóveda superior. Sin dioses interviniendo en la mecánica del mundo.</p></p>
+
+    <div class="water-diagram">
+      <svg viewBox="0 0 860 400" xmlns="http://www.w3.org/2000/svg" style="background:#080e18">
+        <!-- Stars -->
+        <circle cx="80"  cy="40"  r="1" fill="#e8c97a" opacity=".6"/>
+        <circle cx="200" cy="25"  r="1.5" fill="#e8c97a" opacity=".5"/>
+        <circle cx="400" cy="15"  r="1" fill="#e8c97a" opacity=".7"/>
+        <circle cx="600" cy="30"  r="1.5" fill="#e8c97a" opacity=".4"/>
+        <circle cx="780" cy="20"  r="1" fill="#e8c97a" opacity=".6"/>
+        <circle cx="150" cy="60"  r="1" fill="#e8c97a" opacity=".4"/>
+        <circle cx="720" cy="55"  r="1.5" fill="#e8c97a" opacity=".5"/>
+        <circle cx="480" cy="45"  r="1" fill="#e8c97a" opacity=".3"/>
+        <circle cx="330" cy="65"  r="1" fill="#e8c97a" opacity=".5"/>
+
+        <!-- Sky dome -->
+        <path d="M 60 200 Q 430 -30 800 200" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1" stroke-dasharray="4 4"/>
+        <text x="430" y="60" text-anchor="middle" fill="rgba(201,168,76,0.4)" font-family="'Crimson Pro',serif" font-size="13" font-style="italic">Bóveda celeste</text>
+
+        <!-- Sun -->
+        <circle cx="680" cy="90" r="22" fill="none" stroke="#e8c97a" stroke-width="1" opacity=".5"/>
+        <circle cx="680" cy="90" r="14" fill="#c9a84c" opacity=".7"/>
+        <text x="680" y="128" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="2">SOL</text>
+
+        <!-- Moon -->
+        <circle cx="180" cy="80" r="14" fill="none" stroke="#e8dcc0" stroke-width="1" opacity=".4"/>
+        <circle cx="186" cy="80" r="12" fill="#0d1220" opacity=".9"/>
+        <text x="180" y="108" text-anchor="middle" fill="rgba(230,220,192,0.4)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="2">LUNA</text>
+
+        <!-- Earth flat disk -->
+        <ellipse cx="430" cy="225" rx="320" ry="28" fill="#2a3d1a" stroke="#4a6030" stroke-width="1.5"/>
+        <ellipse cx="430" cy="220" rx="320" ry="22" fill="#3a5228"/>
+        <!-- Earth surface details -->
+        <ellipse cx="430" cy="218" rx="290" ry="14" fill="#4a6a32" opacity=".6"/>
+        <text x="430" y="222" text-anchor="middle" fill="rgba(220,255,180,0.55)" font-family="'Inter',sans-serif" font-size="12" letter-spacing="3" font-weight="500">TIERRA  —  disco plano</text>
+
+        <!-- Water ocean below -->
+        <path d="M 110 248 Q 430 265 750 248 L 750 380 Q 430 395 110 380 Z" fill="#0d2540" opacity=".9"/>
+        <path d="M 110 248 Q 430 262 750 248" fill="none" stroke="#2a6090" stroke-width="1.5" opacity=".7"/>
+        <!-- Water waves -->
+        <path d="M 130 270 Q 190 262 250 270 Q 310 278 370 270 Q 430 262 490 270 Q 550 278 610 270 Q 670 262 730 270" fill="none" stroke="#3a8ab8" stroke-width="1" opacity=".35"/>
+        <path d="M 150 295 Q 210 287 270 295 Q 330 303 390 295 Q 450 287 510 295 Q 570 303 630 295 Q 690 287 710 295" fill="none" stroke="#3a8ab8" stroke-width="1" opacity=".25"/>
+        <text x="430" y="320" text-anchor="middle" fill="rgba(74,138,184,0.65)" font-family="'Crimson Pro',serif" font-size="15" font-style="italic">El Océano Primordial — el Agua como sustrato de todo</text>
+
+        <!-- Arrows from water to earth -->
+        <line x1="430" y1="248" x2="430" y2="300" stroke="rgba(74,138,184,0.4)" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <!-- Labels -->
+        <text x="430" y="395" text-anchor="middle" fill="rgba(201,168,76,0.25)" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3">ARJÉ · PRINCIPIO PRIMORDIAL SEGÚN TALES DE MILETO</text>
+      </svg>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- ANÉCDOTAS -->
+  <section class="section fade-in">
+    <span class="section-label">V · Anécdotas</span>
+    <h2 class="section-title">El hombre detrás de la leyenda</h2>
+    <div class="lead"><p>Tales fue uno de los Siete Sabios de Grecia. Junto a Solón, Pitaco, Bías, Quilón, Cleobulo y Periandro, representaba la sabiduría práctica y teórica de la época. Las anécdotas sobre él son muchas, y algunas son demasiado buenas para ser verdad.</p></div>
+
+    <div class="anec-block">
+      <div class="anec-label">La caída al pozo</div>
+      <div class="anec-text">Mientras caminaba de noche contemplando las estrellas, Tales cayó en un pozo. Una sirvienta tracia que lo vio le dijo, burlona: <em>"Quieres saber lo que hay en el cielo, Tales, pero no ves lo que tienes delante de los pies."</em> Platón cuenta esta historia en el Teeteto. Se convirtió en el arquetipo eterno del filósofo distraído, ajeno al mundo práctico.</div>
+    </div>
+
+    <div class="anec-block">
+      <div class="anec-label">El negocio de las aceitunas</div>
+      <div class="anec-text">Aristotéleles cuenta que Tales, harto de que le dijeran que la filosofía no servía para ganar dinero, usó su conocimiento astronómico para predecir una gran cosecha de aceitunas. Arrendó anticipadamente todas las prensas de aceite de Mileto y Quíos. Cuando llegó la cosecha abundante, las alquiló a precios altísimos y se hizo rico. Luego lo dejó todo, probado el punto: el sabio puede enriquecerse si quiere. Simplemente elige no hacerlo.</div>
+    </div>
+
+    <div class="anec-block">
+      <div class="anec-label">¿Soltero o casado?</div>
+      <div class="anec-text">Diógenes Laercio recoge dos versiones opuestas: una dice que jamás se casó para no tener hijos y poder dedicarse al pensamiento. Otra dice que adoptó al hijo de su hermana. Cuando su madre le preguntaba por qué no se casaba, respondía: <em>"Todavía no es el momento."</em> Y cuando ya era viejo y ella insistía, dijo: <em>"Ya no es el momento."</em></div>
+    </div>
+
+    <div class="anec-block">
+      <div class="anec-label">Las pirámides de Egipto</div>
+      <div class="anec-text">Para demostrar su método geométrico, calculó la altura de la pirámide de Keops midiendo la longitud de su propia sombra y la de la pirámide en el momento exacto en que ambas eran iguales. Los sacerdotes egipcios, que habían medido las pirámides con cuerdas durante siglos, quedaron maravillados. Tales lo hizo con un palo y el sol.</div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- CONTEXTO COMPARATIVO -->
+  <section class="section fade-in">
+    <span class="section-label">VI · Escuela Milesia</span>
+    <h2 class="section-title">Sus discípulos: tres respuestas al mismo problema</h2>
+    <div class="lead"><p>Tales fundó una tradición. Sus discípulos directos respondieron a la misma pregunta —¿cuál es el arjé?— con respuestas distintas y cada vez más sofisticadas.</p></div>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="compare-who">Tales de Mileto</div>
+        <div class="compare-arje">Arjé → Agua</div>
+        <div class="compare-text">Observable, presente en todo ser vivo, puede ser sólido, líquido y gaseoso. El primer intento racional.</div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-who">Anaximandro</div>
+        <div class="compare-arje">Arjé → Ápeiron (lo indefinido)</div>
+        <div class="compare-text">Discípulo directo. Criticó a Tales: si el agua es el principio, ¿de qué principio viene el agua? Propuso algo anterior a cualquier elemento: lo indefinido, lo ilimitado.</div>
+      </div>
+      <div class="compare-card">
+        <div class="compare-who">Anaxímenes</div>
+        <div class="compare-arje">Arjé → Aire</div>
+        <div class="compare-text">Discípulo de Anaximandro. Volvió a un elemento concreto pero con un mecanismo: condensación y rarefacción. El aire se condensa en agua, en tierra, en fuego.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- OBRAS / TESTIMONIOS -->
+  <section class="section fade-in">
+    <span class="section-label">VII · Obra</span>
+    <h2 class="section-title">No hay páginas, solo ecos</h2>
+    <div class="lead"><p>Tales no escribió nada —o si lo hizo, no sobrevivió nada. Todo lo que sabemos de él son citas de segunda y tercera mano. Sus "obras" son los testimonios de quienes lo leyeron, oyeron o imaginaron.</p></div>
+    <div class="obra-list">
+      <div class="obra-item">
+        <div class="obra-n">I</div>
+        <div class="obra-body">
+          <div class="obra-title">Sobre los principios (atribuida, perdida)</div>
+          <div class="obra-desc">Algunos autores antiguos mencionan que Tales escribió sobre astronomía y geometría. Diógenes Laercio menciona dos posibles tratados: <em>Sobre el solsticio</em> y <em>Sobre el equinoccio</em>. No queda rastro de ellos. Es posible que nunca existieran o que fueran atribuidos falsamente.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">II</div>
+        <div class="obra-body">
+          <div class="obra-title">Aristóteles, Metafísica — Libro I (nuestra fuente principal)</div>
+          <div class="obra-desc">Aristóteles, escribiendo casi 250 años después, dedica varias páginas a describir la posición de Tales. Lo llama el <em>fundador de la filosofía de la naturaleza</em> y explica su teoría del agua. Es la fuente más seria y la más citada en toda la tradición filosófica.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">III</div>
+        <div class="obra-body">
+          <div class="obra-title">Diógenes Laercio, Vidas de los filósofos ilustres — Libro I</div>
+          <div class="obra-desc">Escrito en el siglo III d.C., es la gran enciclopedia de los filósofos griegos. El capítulo sobre Tales incluye su biografía, anécdotas, cartas (probablemente apócrifas) y sentencias. Es una fuente fascinante aunque de dudosa historicidad.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">IV</div>
+        <div class="obra-body">
+          <div class="obra-title">Heródoto, Historias — Libro I</div>
+          <div class="obra-desc">El historiador griego menciona a Tales en el contexto de la guerra entre medos y lidios y su predicción del eclipse. Es la mención más antigua y la más confiable históricamente, ya que Heródoto escribió apenas un siglo después de la muerte de Tales.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">V</div>
+        <div class="obra-body">
+          <div class="obra-title">Platón, Teeteto</div>
+          <div class="obra-desc">Platón cuenta la anécdota del pozo, pero con intención filosófica: la sirvienta tracia representa el conocimiento práctico que se ríe del teórico. Platón la usa para defender precisamente lo contrario: la superioridad de la contemplación sobre lo utilitario.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- LEGADO -->
+  <section class="section fade-in" id="legado">
+    <span class="section-label">VIII · Legado</span>
+    <h2 class="section-title">Lo que Tales puso en marcha</h2>
+    <div class="lead">
+      <p>La influencia de Tales no se mide por sus ideas concretas —que fueron superadas en vida de sus propios discípulos— sino por <strong>el gesto que inauguró</strong>: la pregunta racional sobre el cosmos. Es el primer eslabón de una cadena que llega hasta hoy.</p>
+      <p>Anaximandro y Anaxímenes lo siguieron. Heráclito y Parménides respondieron a los problemas que él abrió. Pitágoras compartió su amor por la estructura matemática del universo. Platón construyó su idealismo sobre la base de que hay algo detrás de la apariencia sensible. Aristóteles —que lo criticó— lo tomó como punto de partida. La cadena no se rompe.</p>
+      <p>En matemáticas, el Teorema de Tales sigue en todos los programas de geometría del mundo. Su nombre se enseña en secundaria en Buenos Aires, en Tokio, en Lagos. En 2026, unos 2600 años después de su muerte, cualquier estudiante de geometría tiene que pasar por él.</p>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Aristotle_Bust_White_Background.jpg/800px-Aristotle_Bust_White_Background.jpg" alt="Aristóteles" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Aristóteles · nuestro principal testigo de Tales</div>
+      </div>
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Thales%27_Theorem_Simple.svg/800px-Thales%27_Theorem_Simple.svg.png" alt="Teorema de Tales" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Teorema de Tales · sigue en los libros de geometría del siglo XXI</div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>"Todo está lleno de dioses." </blockquote>
+      <cite>— Atribuido a Tales de Mileto · refiriéndose a que la naturaleza entera está animada por una fuerza</cite>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- VIGENCIA HOY -->
+  <section class="section fade-in" id="vigencia">
+    <span class="section-label">IX · Vigencia en 2026</span>
+    <h2 class="section-title">¿Quedó obsoleto Tales?</h2>
+    <div class="lead">
+      <p>En un sentido literal: sí. El arjé no es el agua. La Tierra no flota sobre un océano. No hay una sustancia única que sea el principio de todo —aunque la física cuántica de campo le da una vuelta interesante a esa intuición.</p>
+      <p>Pero en el sentido filosófico: <strong>no, en absoluto</strong>. Tales no es obsoleto porque sus ideas sean verdaderas. Es vigente porque el <em>modo de preguntar</em> que inauguró nunca dejó de usarse. La pregunta <em>"¿de qué está hecho todo?"</em> es exactamente lo que los físicos del CERN siguen respondiendo en 2026 con el colisionador de hadrones. Cambiaron los instrumentos. La pregunta es la misma.</p>
+    </div>
+
+    <div class="relevance fade-in">
+      <div class="rel-title">Relevancia académica y cultural en 2026</div>
+      <div class="rel-row">
+        <div class="rel-label">Historia de la filosofía</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="100"></div></div>
+        <div class="rel-val">100%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Geometría (Teorema)</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="98"></div></div>
+        <div class="rel-val">98%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Filosofía de la ciencia</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="85"></div></div>
+        <div class="rel-val">85%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Cosmología / física</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="40"></div></div>
+        <div class="rel-val">40%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Metafísica</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="72"></div></div>
+        <div class="rel-val">72%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Cultura popular</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="55"></div></div>
+        <div class="rel-val">55%</div>
+      </div>
+    </div>
+
+    <div class="vigencia-chips">
+      <div class="vc">Se estudia en todos los programas de filosofía del mundo</div>
+      <div class="vc">Teorema de Tales · geometría secundaria</div>
+      <div class="vc">Figura inaugural en epistemología</div>
+      <div class="vc">Referencia en filosofía de la ciencia</div>
+      <div class="vc">Estudiado en física teórica como antecedente</div>
+      <div class="vc">Símbolo del pensamiento racional laico</div>
+      <div class="vc">Mencionado en el CERN como precursor conceptual</div>
+      <div class="vc">Presente en cualquier curso universitario de historia antigua</div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- CURIOSIDADES FINALES -->
+  <section class="section fade-in">
+    <span class="section-label">X · Para cerrar</span>
+    <h2 class="section-title">Diez cosas sobre Tales que vale la pena saber</h2>
+    <div class="ideas-grid">
+      <div class="idea-card">
+        <span class="idea-icon">1</span>
+        <div class="idea-title">Sin una sola línea escrita</div>
+        <div class="idea-text">Todo lo que sabemos de él son testimonios de terceros. Es quizás el filósofo más influyente de la historia que no nos dejó ni una sola frase propia verificada.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">2</span>
+        <div class="idea-title">Primer científico de Occidente</div>
+        <div class="idea-text">Antes de ser filósofo, Tales hizo algo que hoy llamaríamos ciencia: observó, predijo y verificó. El eclipse de 585 a.C. es el primer evento científico datado con precisión en la historia occidental.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">3</span>
+        <div class="idea-title">Ingeniero y político</div>
+        <div class="idea-text">Aconsejó desviar el río Halis para que el ejército del rey Creso pudiera cruzarlo. Propuso una unión política de las ciudades jonias. No era solo un teórico: actuaba en el mundo.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">4</span>
+        <div class="idea-title">Navegante por las estrellas</div>
+        <div class="idea-text">Introdujo en Grecia el uso de la Osa Menor para la navegación, aprendido de los fenicios. Era más útil que la Osa Mayor para encontrar el norte. Los marinos griegos lo adoptaron rápidamente.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">5</span>
+        <div class="idea-title">La sirvienta que lo ridiculizó</div>
+        <div class="idea-text">La historia del pozo tiene vida propia en la historia de la filosofía: Platón, Hegel y Hannah Arendt la analizan. La sirvienta tracia se convirtió en símbolo del sentido común frente a la teoría.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">6</span>
+        <div class="idea-title">Primer ecologista intuitivo</div>
+        <div class="idea-text">"Todo está lleno de dioses" puede leerse hoy como una intuición panteísta: la naturaleza tiene valor intrínseco, no solo instrumental. No es descabellado encontrar en Tales un ancestro remoto del pensamiento ecológico.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">7</span>
+        <div class="idea-title">Sus discípulos lo superaron</div>
+        <div class="idea-text">Anaximandro, su discípulo inmediato, criticó su teoría y la superó filosóficamente. Es la tradición más hermosa de la filosofía: el maestro que engendra el pensamiento que lo contradice.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">8</span>
+        <div class="idea-title">El teorema que lleva su nombre</div>
+        <div class="idea-text">El Teorema de Tales —todo ángulo inscrito en un semicírculo es recto— se enseña en la escuela secundaria en casi todo el mundo. Es el legado más concreto y más democratizado de su trabajo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAV PÁGINAS -->
+  <div class="page-nav fade-in">
+    <a href="index.html" class="nav-btn">
+      ← Volver al índice
+    </a>
+    <a href="pitagoras.html" class="nav-btn">
+      Pitágoras →
+    </a>
+  </div>
+
+</div><!-- /page -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-phi">Φ</div>
+  <p class="footer-text">Filósofos en el Tiempo &nbsp;·&nbsp; Tales de Mileto &nbsp;·&nbsp; c. 624–546 a.C.<br>
+  Elaborado por Jorge &nbsp;·&nbsp; San Luis, Argentina &nbsp;·&nbsp; 2026</p>
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* PROGRESS + SCROLL */
+const prog = document.getElementById('prog');
+const btt  = document.getElementById('btt');
+const nav  = document.getElementById('topnav');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  prog.style.width = pct + '%';
+  btt.classList.toggle('show', window.scrollY > 500);
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* FADE IN OBSERVER */
+const fio = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); fio.unobserve(e.target); } });
+}, {threshold:.07, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-in').forEach(el => fio.observe(el));
+
+/* RELEVANCE BARS */
+const baro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.rel-bar').forEach(b => {
+        setTimeout(() => { b.style.width = b.dataset.w + '%'; }, 200);
+      });
+      baro.unobserve(e.target);
+    }
+  });
+}, {threshold:.3});
+document.querySelectorAll('.relevance').forEach(el => baro.observe(el));
+
+/* CANVAS WATER ANIMATION */
+const canvas = document.getElementById('waterCanvas');
+const ctx = canvas.getContext('2d');
+let W, H, t = 0;
+
+function resize() {
+  W = canvas.width  = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function drawWater() {
+  ctx.clearRect(0, 0, W, H);
+  // Draw gentle ripple lines suggesting the primordial ocean
+  for (let i = 0; i < 8; i++) {
+    const y = H * 0.55 + i * 28 + Math.sin(t * 0.4 + i * 0.7) * 8;
+    const alpha = (0.12 - i * 0.012) * (1 - i/10);
+    ctx.beginPath();
+    ctx.strokeStyle = `rgba(42, 120, 180, ${alpha})`;
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 2) {
+      const yy = y + Math.sin(x * 0.01 + t * 0.5 + i * 0.4) * 6
+                   + Math.sin(x * 0.02 - t * 0.3 + i) * 3;
+      x === 0 ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy);
+    }
+    ctx.stroke();
+  }
+  // Soft glow at center top
+  const grd = ctx.createRadialGradient(W/2, H*0.3, 0, W/2, H*0.3, W*0.4);
+  grd.addColorStop(0, 'rgba(42, 90, 140, 0.08)');
+  grd.addColorStop(1, 'transparent');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, W, H);
+  t += 0.016;
+  requestAnimationFrame(drawWater);
+}
+drawWater();
+
+/* NAV ACTIVE LINK */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+const nlObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, {rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(s => nlObs.observe(s));
+</script>
+</body>
+</html>
