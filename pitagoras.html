@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitágoras · Filósofos en el Tiempo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c9a84c;--gold2:#e8c97a;--gold3:#f5e8c0;
+  --parch:#faf6ee;--parch2:#f2ead8;--parch3:#e8dcc0;
+  --dark:#0e0b06;--dark2:#1c1508;
+  --accent:#8b3a1a;--accent2:#b85c2a;
+  --purple:#3a2a5c;--purple2:#6a4a9c;--purple3:#a07ad0;
+  --ff-serif:'Playfair Display',Georgia,serif;
+  --ff-body:'Crimson Pro',Georgia,serif;
+  --ff-ui:'Inter',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--parch);font-family:var(--ff-body);font-size:18px;line-height:1.75;overflow-x:hidden}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5}
+
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(to right,var(--purple3),var(--gold));z-index:999;width:0;transition:width .1s linear}
+
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(14,11,6,0);transition:background .4s,border .4s;border-bottom:1px solid transparent}
+.topnav.scrolled{background:rgba(14,11,6,.92);backdrop-filter:blur(16px);border-bottom-color:rgba(201,168,76,.1)}
+.nav-home{display:flex;align-items:center;gap:.4rem;color:rgba(201,168,76,.45);font-family:var(--ff-ui);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-home:hover{color:var(--gold2)}
+.nav-home svg{width:12px;height:12px;flex-shrink:0}
+.nav-logo{font-family:var(--ff-serif);font-size:.95rem;color:var(--gold);opacity:.7;text-decoration:none;letter-spacing:.03em;white-space:nowrap}
+.nav-logo span{opacity:.5;margin:0 .4rem}
+.nav-links{display:flex;gap:1rem;align-items:center}
+.nav-link{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,168,76,.4);text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--gold2)}
+
+@media(max-width:600px){
+  .nav-logo{display:none}
+  .nav-links{gap:.6rem}
+  .nav-link{font-size:.55rem;letter-spacing:.08em}
+  .topnav{padding:.65rem 1rem}
+}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;text-align:center;padding:6rem 1.5rem 5rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 100% 80% at 50% 50%,#1a0e2a 0%,#0e0b06 70%);z-index:0}
+.hero-canvas{position:absolute;inset:0;z-index:0}
+.hero-img-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);z-index:1;width:min(380px,75vw);mask-image:linear-gradient(to top,rgba(0,0,0,.85) 35%,transparent 100%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,.85) 35%,transparent 100%)}
+.hero-img-wrap img{width:100%;display:block;filter:grayscale(30%) sepia(20%) brightness(.6);opacity:.5}
+
+.hero-content{position:relative;z-index:2;width:100%;max-width:720px}
+.hero-era{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:.8rem}
+.hero-dates{font-family:var(--ff-ui);font-size:.68rem;letter-spacing:.18em;color:rgba(201,168,76,.45);margin-bottom:1rem}
+.hero-name{font-family:var(--ff-serif);font-size:clamp(3rem,10vw,6.5rem);font-weight:900;line-height:.95;color:var(--gold2);text-shadow:0 0 100px rgba(160,122,208,.3);margin-bottom:.2rem}
+.hero-name em{display:block;font-style:italic;font-size:clamp(.9rem,3.5vw,1.5rem);font-weight:400;color:var(--parch3);letter-spacing:.06em;margin-top:.5rem;line-height:1.4}
+.hero-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin:1.4rem 0}
+.hero-divider span{display:block;width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.hero-divider i{width:6px;height:6px;border:1px solid var(--gold);transform:rotate(45deg);display:block;opacity:.6}
+.hero-tagline{font-family:var(--ff-body);font-size:clamp(.95rem,2.5vw,1.1rem);font-style:italic;color:var(--parch3);line-height:1.8;max-width:520px;margin:0 auto 2rem}
+.hero-pills{display:flex;flex-wrap:wrap;gap:.45rem;justify-content:center}
+.pill{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.08em;padding:.28rem .8rem;border-radius:999px;border:1px solid;text-transform:uppercase;line-height:1.4}
+.pill-gold{border-color:rgba(201,168,76,.3);color:rgba(201,168,76,.65);background:rgba(201,168,76,.06)}
+.pill-purple{border-color:rgba(106,74,156,.5);color:#c09ae8;background:rgba(58,42,92,.2)}
+.pill-red{border-color:rgba(139,58,26,.4);color:#e8a87c;background:rgba(184,92,42,.1)}
+
+.hero-scroll{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:5px;color:rgba(201,168,76,.35);font-family:var(--ff-ui);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none}
+.scroll-line{width:1px;height:34px;background:linear-gradient(to bottom,transparent,var(--gold));animation:spulse 2s ease-in-out infinite}
+@keyframes spulse{0%,100%{opacity:.3;transform:scaleY(.8)}50%{opacity:.8;transform:scaleY(1)}}
+
+/* PAGE */
+.page{max-width:860px;margin:0 auto;padding:4rem 1.5rem 2rem;position:relative;z-index:1}
+@media(max-width:480px){.page{padding:3rem 1rem 1.5rem}}
+
+/* SECTIONS */
+.section{margin-bottom:4.5rem}
+.section-label{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:.4rem;display:block}
+.section-title{font-family:var(--ff-serif);font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700;color:var(--gold2);line-height:1.2;margin-bottom:1.4rem}
+.lead p{font-family:var(--ff-body);font-size:clamp(.95rem,2.5vw,1.05rem);color:var(--parch3);line-height:1.85;margin-bottom:1.1rem}
+.lead p:last-child{margin-bottom:0}
+.lead strong{color:var(--parch);font-weight:600}
+.lead em{font-style:italic}
+
+.sep{display:flex;align-items:center;gap:1rem;margin:3rem 0}
+.sep span{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.13),transparent)}
+.sep i{width:5px;height:5px;border:1px solid rgba(201,168,76,.3);transform:rotate(45deg);display:block}
+
+/* QUOTE */
+.quote-block{padding:1.6rem 2rem;border-left:3px solid var(--gold);background:rgba(201,168,76,.04);border-radius:0 6px 6px 0;margin:2rem 0}
+.quote-block blockquote{font-family:var(--ff-serif);font-size:clamp(1rem,3vw,1.28rem);font-style:italic;color:var(--parch3);line-height:1.65;margin-bottom:.6rem}
+.quote-block cite{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,168,76,.4);font-style:normal}
+
+/* TIMELINE */
+.bio-timeline{position:relative;padding-left:1.8rem}
+.bio-timeline::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:1px;background:linear-gradient(to bottom,var(--purple3),rgba(201,168,76,.1))}
+.bio-item{position:relative;margin-bottom:1.8rem}
+.bio-dot{position:absolute;left:-1.8rem;top:5px;width:9px;height:9px;border-radius:50%;border:1px solid var(--purple3);background:var(--dark);transform:translateX(calc(-50% + .5px))}
+.bio-year{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:.12em;color:var(--purple3);margin-bottom:.2rem}
+.bio-text{font-family:var(--ff-body);font-size:clamp(.9rem,2.5vw,.98rem);color:var(--parch3);line-height:1.75}
+.bio-text strong{color:var(--parch);font-weight:600}
+
+/* IDEAS GRID */
+.ideas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:.9rem;margin-top:1.4rem}
+.idea-card{background:rgba(255,255,255,.02);border:1px solid rgba(160,122,208,.12);border-radius:8px;padding:1.3rem 1.4rem;transition:border-color .25s,background .25s}
+.idea-card:hover{border-color:rgba(160,122,208,.35);background:rgba(160,122,208,.06)}
+.idea-icon{font-size:1.5rem;margin-bottom:.6rem;display:block}
+.idea-title{font-family:var(--ff-serif);font-size:clamp(.9rem,2.5vw,1rem);font-weight:700;color:var(--gold2);margin-bottom:.45rem;line-height:1.3}
+.idea-text{font-family:var(--ff-body);font-size:clamp(.82rem,2.2vw,.9rem);color:var(--parch3);line-height:1.68}
+
+/* THEOREM DIAGRAM */
+.diagram-wrap{margin:2rem 0;border:1px solid rgba(160,122,208,.15);border-radius:10px;overflow:hidden;background:rgba(10,6,20,.7)}
+.diagram-wrap svg{display:block;width:100%;height:auto}
+
+/* IMAGES */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:.9rem;margin:1.4rem 0}
+.img-block{border-radius:8px;overflow:hidden;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.03)}
+.img-block img{width:100%;display:block;filter:grayscale(25%) sepia(20%);transition:filter .3s;aspect-ratio:4/3;object-fit:cover}
+.img-block:hover img{filter:grayscale(0%) sepia(8%)}
+.img-caption{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.07em;color:rgba(201,168,76,.38);padding:.55rem .8rem;text-transform:uppercase;line-height:1.5}
+.img-full{border-radius:8px;overflow:hidden;border:1px solid rgba(201,168,76,.1);margin:1.4rem 0}
+.img-full img{width:100%;display:block;filter:grayscale(20%) sepia(15%);max-height:340px;object-fit:cover;object-position:top}
+.img-full .img-caption{padding:.65rem 1rem}
+
+/* SECT TABLE */
+.sect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:.8rem;margin-top:1.3rem}
+.sect-card{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.09);border-radius:8px;padding:1.2rem}
+.sect-who{font-family:var(--ff-serif);font-size:.98rem;font-weight:700;color:var(--gold2);margin-bottom:.25rem;line-height:1.3}
+.sect-role{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(160,122,208,.7);margin-bottom:.5rem}
+.sect-text{font-family:var(--ff-body);font-size:.85rem;color:var(--parch3);line-height:1.65}
+
+/* RELEVANCE */
+.relevance{background:rgba(255,255,255,.02);border:1px solid rgba(160,122,208,.12);border-radius:10px;padding:1.6rem 1.8rem;margin:1.8rem 0}
+.rel-title{font-family:var(--ff-serif);font-size:1rem;font-weight:700;color:var(--gold2);margin-bottom:1.1rem}
+.rel-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;flex-wrap:nowrap}
+.rel-label{font-family:var(--ff-ui);font-size:.62rem;letter-spacing:.05em;color:var(--parch3);width:155px;flex-shrink:0;line-height:1.3}
+.rel-bar-wrap{flex:1;height:5px;background:rgba(160,122,208,.12);border-radius:999px;overflow:hidden;min-width:60px}
+.rel-bar{height:100%;border-radius:999px;background:linear-gradient(to right,var(--purple3),var(--gold));width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.rel-val{font-family:var(--ff-ui);font-size:.6rem;color:rgba(201,168,76,.45);width:30px;text-align:right;flex-shrink:0}
+@media(max-width:400px){
+  .rel-label{width:110px;font-size:.58rem}
+}
+
+/* VIGENCIA CHIPS */
+.vc-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.vc{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.07em;padding:.3rem .9rem;border-radius:6px;background:rgba(160,122,208,.08);border:1px solid rgba(160,122,208,.18);color:rgba(192,154,232,.75);line-height:1.4}
+
+/* ANECDOTES */
+.anec-block{margin-bottom:1.3rem;padding:1.1rem 1.4rem;background:rgba(160,122,208,.04);border:1px solid rgba(160,122,208,.1);border-radius:8px}
+.anec-label{font-family:var(--ff-ui);font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:var(--purple3);margin-bottom:.35rem;line-height:1.4}
+.anec-text{font-family:var(--ff-body);font-size:clamp(.88rem,2.5vw,.97rem);color:var(--parch3);line-height:1.78}
+.anec-text em{font-style:italic}
+
+/* OBRA LIST */
+.obra-list{margin-top:1rem}
+.obra-item{display:flex;gap:.9rem;padding:.9rem 0;border-bottom:1px solid rgba(201,168,76,.07);align-items:flex-start}
+.obra-item:last-child{border-bottom:none}
+.obra-n{font-family:var(--ff-serif);font-size:1.8rem;font-weight:900;color:rgba(160,122,208,.2);line-height:1;flex-shrink:0;width:2.2rem;text-align:center;padding-top:.1rem}
+.obra-title{font-family:var(--ff-serif);font-size:1rem;font-style:italic;color:var(--parch);margin-bottom:.25rem;line-height:1.3}
+.obra-desc{font-family:var(--ff-body);font-size:clamp(.82rem,2.2vw,.9rem);color:var(--parch3);line-height:1.68}
+
+/* PAGE NAV */
+.page-nav{display:flex;justify-content:space-between;align-items:center;padding:2.5rem 0 1.5rem;border-top:1px solid rgba(201,168,76,.1);gap:1rem}
+.nav-btn{font-family:var(--ff-ui);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(201,168,76,.4);text-decoration:none;display:flex;align-items:center;gap:.4rem;transition:color .2s;line-height:1.5}
+.nav-btn:hover{color:var(--gold2)}
+
+/* FOOTER */
+footer{text-align:center;padding:2.5rem 1.5rem 3.5rem;border-top:1px solid rgba(201,168,76,.07);position:relative;z-index:1}
+.footer-phi{font-family:var(--ff-serif);font-size:2rem;color:var(--gold);opacity:.28;margin-bottom:.4rem}
+.footer-text{font-family:var(--ff-ui);font-size:.58rem;letter-spacing:.17em;text-transform:uppercase;color:rgba(201,168,76,.18);line-height:2}
+
+#btt{position:fixed;bottom:1.8rem;right:1.8rem;width:38px;height:38px;border-radius:50%;background:rgba(160,122,208,.1);border:1px solid rgba(160,122,208,.22);color:var(--purple3);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s;font-size:.85rem;font-family:var(--ff-ui)}
+#btt.show{opacity:1;transform:translateY(0)}
+#btt:hover{background:rgba(160,122,208,.22)}
+
+.fade-in{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav class="topnav" id="topnav">
+  <a href="index.html" class="nav-home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    Índice
+  </a>
+  <a href="index.html" class="nav-logo">Filósofos<span>·</span>en el Tiempo</a>
+  <div class="nav-links">
+    <a href="#vida" class="nav-link">Vida</a>
+    <a href="#ideas" class="nav-link">Ideas</a>
+    <a href="#secta" class="nav-link">Secta</a>
+    <a href="#legado" class="nav-link">Legado</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <canvas id="heroCanvas" class="hero-canvas"></canvas>
+  <div class="hero-img-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kapitolinischer_Pythagoras_adjusted.jpg/800px-Kapitolinischer_Pythagoras_adjusted.jpg" alt="Busto de Pitágoras" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-content">
+    <p class="hero-era">Antigüedad Presocrática · Pitagorismo</p>
+    <p class="hero-dates">c. 570 a.C. — c. 495 a.C.</p>
+    <h1 class="hero-name">
+      Pitágoras
+      <em>de Samos</em>
+    </h1>
+    <div class="hero-divider"><span></span><i></i><span></span></div>
+    <p class="hero-tagline">
+      El hombre que creyó que el universo<br>
+      habla el idioma de los números.<br>
+      <em>Y fundó una religión para probarlo.</em>
+    </p>
+    <div class="hero-pills">
+      <span class="pill pill-red">Padre de las Matemáticas occidentales</span>
+      <span class="pill pill-purple">Arjé = Número</span>
+      <span class="pill pill-gold">Filósofo · Matemático · Místico</span>
+      <span class="pill pill-purple">Fundó una secta secreta</span>
+      <span class="pill pill-gold">Samos · c. 570 a.C.</span>
+    </div>
+  </div>
+  <a href="#vida" class="hero-scroll">
+    <div class="scroll-line"></div>
+    leer
+  </a>
+</section>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- I -->
+  <section class="section fade-in" id="vida">
+    <span class="section-label">I · Quién fue</span>
+    <h2 class="section-title">El matemático que era también un profeta</h2>
+    <div class="lead">
+      <p>Pitágoras de Samos es uno de los personajes más fascinantes y escurridizos de la historia del pensamiento. Matemático, filósofo, místico, líder religioso y fundador de una comunidad secreta que tuvo poder político real en el sur de Italia durante décadas. Es casi imposible separar la leyenda del hombre.</p>
+      <p>Como Tales, no escribió nada. O si lo hizo, la comunidad pitagórica guardó sus doctrinas en secreto tan celosamente que nada sobrevivió. Lo que sabemos de él llega a través de fuentes tardías —Jámblico, Porfirio, Diógenes Laercio— escritas cinco o seis siglos después de su muerte, saturadas de admiración y mito. El propio Aristóteles dudaba de muchas cosas que se le atribuían.</p>
+      <p>Lo que sí es indudable: Pitágoras <strong>transformó la manera en que Occidente piensa la relación entre matemática y realidad</strong>. Su intuición central —que el cosmos tiene una estructura numérica y armónica— atraviesa 2600 años de historia y sigue siendo operativa en la física teórica del siglo XXI.</p>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>"El número es el principio y la esencia de todas las cosas."</blockquote>
+      <cite>— Atribuido a Pitágoras · según Aristóteles, Metafísica Libro I</cite>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- II CRONOLOGÍA -->
+  <section class="section fade-in">
+    <span class="section-label">II · Cronología</span>
+    <h2 class="section-title">De Samos a Crotona: una vida entre mundos</h2>
+    <div class="bio-timeline">
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 570 a.C.</div>
+        <div class="bio-text"><strong>Nace en Samos</strong>, isla griega del Egeo frente a la costa de Jonia. Su padre, Mnesarco, era comerciante de gemas o grabador, según las fuentes. Su madre, Paitaís, era considerada de extraordinaria belleza. Desde joven viaja y aprende.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 550–530 a.C.</div>
+        <div class="bio-text"><strong>Viajes de formación.</strong> Según la tradición, estudió con Tales y Anaximandro en Mileto —aunque esto es dudoso cronológicamente. Viajó a <strong>Egipto</strong>, donde aprendió geometría sagrada y astronomía de los sacerdotes. Luego a <strong>Babilonia</strong>, donde absorbió aritmética y teoría musical caldea. Posiblemente llegó hasta Persia y la India. Estos viajes son en parte legendarios pero reflejan la síntesis cultural que su pensamiento representa.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 532 a.C.</div>
+        <div class="bio-text"><strong>Huye de Samos.</strong> El tirano Polícrates gobernaba la isla con mano de hierro. Pitágoras, incómodo con el poder autocrático, emigra al sur de Italia. Tenía alrededor de 40 años. Es el comienzo de su período más productivo.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 530 a.C.</div>
+        <div class="bio-text"><strong>Funda su comunidad en Crotona</strong> (hoy Crotone, Calabria, Italia). La <em>hermandad pitagórica</em> era simultáneamente escuela filosófica, comunidad religiosa y grupo político. Tenía reglas de vida estrictísimas: vegetarianismo, silencio iniciático, prohibición de comer habas, secreto total sobre las doctrinas internas.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 510 a.C.</div>
+        <div class="bio-text"><strong>Auge político.</strong> Los pitagóricos dominan el gobierno de varias ciudades del sur de Italia (la Magna Grecia). Pitágoras aconseja a gobernantes, su escuela tiene cientos de miembros de las élites locales. Es el momento de mayor poder político de cualquier escuela filosófica en la historia antigua.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 500 a.C.</div>
+        <div class="bio-text"><strong>La revuelta de Cilón.</strong> Un noble llamado Cilón, rechazado por la hermandad, organiza un violento levantamiento antipiptagórico. La sede en Crotona es incendiada. Muchos pitagóricos mueren. Pitágoras huye a Metaponto, donde pasa sus últimos años.</div>
+      </div>
+      <div class="bio-item">
+        <div class="bio-dot"></div>
+        <div class="bio-year">c. 495 a.C.</div>
+        <div class="bio-text"><strong>Muere en Metaponto</strong>, en el sur de Italia. Tenía alrededor de 75-80 años. Las circunstancias exactas son desconocidas. Su comunidad sobrevivió en varias ciudades durante otro siglo. Su influencia nunca murió.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- III IMAGEN -->
+  <section class="section fade-in">
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kapitolinischer_Pythagoras_adjusted.jpg/800px-Kapitolinischer_Pythagoras_adjusted.jpg" alt="Busto de Pitágoras" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Busto romano · copia de original griego · Museos Capitolinos, Roma</div>
+      </div>
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Pythagorean.jpg/800px-Pythagorean.jpg" alt="Teorema de Pitágoras" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Representación del Teorema de Pitágoras · a² + b² = c²</div>
+      </div>
+    </div>
+    <div class="img-full">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Raphael_School_of_Athens.jpg/1280px-Raphael_School_of_Athens.jpg" alt="Escuela de Atenas - Pitágoras" loading="lazy" onerror="this.style.display='none'">
+      <div class="img-caption">La Escuela de Atenas · Rafael · 1511 · Pitágoras aparece en el ángulo inferior izquierdo, escribiendo en un libro · Museos Vaticanos</div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- IV IDEAS -->
+  <section class="section fade-in" id="ideas">
+    <span class="section-label">IV · Pensamiento</span>
+    <h2 class="section-title">El número como alma del cosmos</h2>
+    <div class="lead">
+      <p>La idea central de Pitágoras es radical y hermosa: <strong>la realidad tiene una estructura matemática</strong>. No es que los números describan el mundo —los números <em>son</em> el mundo. Cada cosa tiene su número, cada relación su proporción. El cosmos es armonía, y la armonía es matemática.</p>
+      <p>Esta intuición no era solo teórica: Pitágoras la descubrió —o creyó descubrirla— en la música. Al estudiar las cuerdas de la lira, observó que las notas armónicas se producen cuando las longitudes de cuerda son proporciones de números enteros simples (1:2, 2:3, 3:4). Si la música —lo más bello que el oído humano percibe— tiene estructura numérica, ¿por qué no todo lo demás?</p>
+    </div>
+
+    <div class="ideas-grid">
+      <div class="idea-card">
+        <span class="idea-icon">🔢</span>
+        <div class="idea-title">El número como arjé</div>
+        <div class="idea-text">Los números no son solo herramientas para contar: son el tejido de la realidad. Cada cosa es un número o una relación entre números. La unidad (1) es el principio de todo; el 2 es la dualidad, el 3 la primera figura plana, el 4 el primer sólido.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🎵</span>
+        <div class="idea-title">La armonía de las esferas</div>
+        <div class="idea-text">Los planetas, al moverse, producen música. Cada esfera celeste vibra a una frecuencia correspondiente a su velocidad y distancia. El cosmos es una sinfonía que los humanos no podemos oír por estar acostumbrados a ella desde el nacimiento. Es la primera teoría matemática de la música y del cosmos.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">📐</span>
+        <div class="idea-title">El teorema de Pitágoras</div>
+        <div class="idea-text">En todo triángulo rectángulo, el cuadrado de la hipotenusa es igual a la suma de los cuadrados de los catetos: a² + b² = c². Lo conocían los babilonios y los egipcios como herramienta práctica. Pitágoras —o su escuela— lo demostró por primera vez como teorema universal. Esa diferencia lo cambia todo.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">♾️</span>
+        <div class="idea-title">La crisis de los irracionales</div>
+        <div class="idea-text">Si todo es número entero y su razón, ¿qué pasa con la diagonal del cuadrado de lado 1? Su longitud es √2, un número irracional. La escuela pitagórica lo descubrió y lo ocultó: era una contradicción fatal para su cosmología. Se dice que Hipaso, quien reveló el secreto, fue arrojado al mar.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🔄</span>
+        <div class="idea-title">La metempsicosis</div>
+        <div class="idea-text">Pitágoras creía en la transmigración de las almas: el alma es inmortal y pasa de cuerpo en cuerpo entre vidas, incluso entre especies. Afirmaba recordar sus vidas anteriores. Se decía que una vez reconoció el alma de un amigo en los gemidos de un perro apaleado y pidió que lo detuvieran.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🌕</span>
+        <div class="idea-title">La Tierra esférica</div>
+        <div class="idea-text">Se atribuye a Pitágoras —o a su escuela— la primera afirmación de que la Tierra es esférica, basada en consideraciones estéticas y matemáticas: la esfera es la forma más perfecta. Más tarde Aristóteles lo confirmaría con argumentos empíricos. Un paso enorme sobre el disco flotante de Tales.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">⚖️</span>
+        <div class="idea-title">Los opuestos fundamentales</div>
+        <div class="idea-text">El universo se organiza en diez pares de opuestos: limitado/ilimitado, par/impar, uno/múltiple, derecha/izquierda, masculino/femenino, en reposo/en movimiento, recto/curvo, luz/oscuridad, bien/mal, cuadrado/oblongo. Una tabla que influyó directamente en Platón y Aristóteles.</div>
+      </div>
+      <div class="idea-card">
+        <span class="idea-icon">🐟</span>
+        <div class="idea-title">La prohibición de las habas</div>
+        <div class="idea-text">No comer habas era uno de los tabúes más famosos de la comunidad pitagórica. Las razones debatidas: similitud de las habas con los genitales o con las puertas del Hades; o simplemente que las habas contienen almas de los muertos. Según una leyenda, Pitágoras murió porque se negó a cruzar un campo de habas mientras huía.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- V DIAGRAMA TEOREMA -->
+  <section class="section fade-in">
+    <span class="section-label">V · Geometría</span>
+    <h2 class="section-title">a² + b² = c² · La demostración</h2>
+    <div class="lead"><p>El teorema más famoso de la historia de las matemáticas. Lo que Pitágoras (o su escuela) hizo no fue solo enunciarlo: lo <em>demostró</em>. Esa diferencia entre conocer un resultado empírico y demostrar su verdad universal es el corazón del método matemático.</p></div>
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" style="background:#080510">
+        <!-- Background grid subtle -->
+        <defs>
+          <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(160,122,208,0.07)" stroke-width=".5"/>
+          </pattern>
+        </defs>
+        <rect width="700" height="420" fill="url(#grid)"/>
+
+        <!-- Main right triangle -->
+        <!-- A=(160,320), B=(400,320), C=(400,100) -->
+        <!-- a (BC, vertical) = 220, b (AB, horizontal) = 240, c (AC, hypotenuse) -->
+        <polygon points="160,320 400,320 400,100" fill="rgba(160,122,208,0.08)" stroke="#a07ad0" stroke-width="1.5"/>
+
+        <!-- Right angle mark -->
+        <rect x="400" y="300" width="16" height="16" fill="none" stroke="#a07ad0" stroke-width="1" opacity=".7"/>
+
+        <!-- Square on b (horizontal leg, bottom) AB=240 -->
+        <polygon points="160,320 400,320 400,360 160,360" fill="rgba(42,90,138,0.15)" stroke="#4a8ab8" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="280" y="353" text-anchor="middle" fill="#4a8ab8" font-family="'Playfair Display',serif" font-size="13" font-style="italic" opacity=".8">b²</text>
+
+        <!-- Square on a (vertical leg, right) BC=220 -->
+        <polygon points="400,100 400,320 440,320 440,100" fill="rgba(201,168,76,0.1)" stroke="#c9a84c" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="447" y="215" text-anchor="start" fill="#c9a84c" font-family="'Playfair Display',serif" font-size="13" font-style="italic" opacity=".8">a²</text>
+
+        <!-- Hypotenuse length: sqrt(240²+220²)=sqrt(57600+48400)=sqrt(106000)≈325.6 -->
+        <!-- Hypotenuse square: need to draw square on AC -->
+        <!-- A=(160,320), C=(400,100) -->
+        <!-- direction vector AC = (240,-220), perp = (220,240) (rotate 90° CCW) normalized -->
+        <!-- perp unit = (220,240)/325.6 -->
+        <!-- perp scaled by 325.6 = (220,240) -->
+        <!-- A'= A + perp = (160+220, 320+240) = (380,560) — off screen, simplify -->
+        <!-- Draw as dashed outline suggestion only -->
+        <!-- Points: A=(160,320), C=(400,100), C'=(400-220,100-240)=(180,-140)→off, skip full square -->
+        <!-- Instead draw color label on hypotenuse -->
+        <line x1="160" y1="320" x2="400" y2="100" stroke="#e8a87c" stroke-width="2"/>
+        <text x="265" y="195" text-anchor="middle" fill="#e8a87c" font-family="'Playfair Display',serif" font-size="13" font-style="italic" transform="rotate(-43,265,195)" opacity=".9">c (hipotenusa)</text>
+
+        <!-- Vertex labels -->
+        <circle cx="160" cy="320" r="3" fill="#a07ad0"/>
+        <circle cx="400" cy="320" r="3" fill="#a07ad0"/>
+        <circle cx="400" cy="100" r="3" fill="#a07ad0"/>
+        <text x="142" y="336" fill="rgba(201,168,76,.6)" font-family="'Inter',sans-serif" font-size="11">A</text>
+        <text x="406" y="336" fill="rgba(201,168,76,.6)" font-family="'Inter',sans-serif" font-size="11">B</text>
+        <text x="406" y="98" fill="rgba(201,168,76,.6)" font-family="'Inter',sans-serif" font-size="11">C</text>
+
+        <!-- Leg labels -->
+        <text x="285" y="314" text-anchor="middle" fill="rgba(74,138,184,.8)" font-family="'Inter',sans-serif" font-size="11" letter-spacing="1">b</text>
+        <text x="415" y="215" fill="rgba(201,168,76,.7)" font-family="'Inter',sans-serif" font-size="11" letter-spacing="1">a</text>
+
+        <!-- Formula -->
+        <text x="100" y="75" text-anchor="start" fill="rgba(160,122,208,0.9)" font-family="'Playfair Display',serif" font-size="22" font-style="italic">a² + b² = c²</text>
+        <text x="100" y="100" fill="rgba(201,168,76,0.35)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="2">TEOREMA DE PITÁGORAS</text>
+
+        <!-- Explanation boxes right side -->
+        <rect x="500" y="80" width="175" height="56" rx="6" fill="rgba(160,122,208,0.07)" stroke="rgba(160,122,208,0.2)" stroke-width=".8"/>
+        <text x="512" y="100" fill="rgba(201,168,76,.8)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="1">CATETO a</text>
+        <text x="512" y="118" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">Lado vertical del triángulo</text>
+        <text x="512" y="130" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">rectángulo</text>
+
+        <rect x="500" y="154" width="175" height="56" rx="6" fill="rgba(42,90,138,0.1)" stroke="rgba(74,138,184,0.25)" stroke-width=".8"/>
+        <text x="512" y="174" fill="rgba(74,138,184,.9)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="1">CATETO b</text>
+        <text x="512" y="192" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">Lado horizontal del triángulo</text>
+        <text x="512" y="204" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">rectángulo</text>
+
+        <rect x="500" y="228" width="175" height="56" rx="6" fill="rgba(184,92,42,0.08)" stroke="rgba(232,168,124,0.25)" stroke-width=".8"/>
+        <text x="512" y="248" fill="rgba(232,168,124,.9)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="1">HIPOTENUSA c</text>
+        <text x="512" y="266" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">El lado opuesto al ángulo</text>
+        <text x="512" y="278" fill="rgba(230,220,192,.55)" font-family="'Crimson Pro',serif" font-size="12">recto. Siempre el mayor.</text>
+
+        <rect x="500" y="302" width="175" height="70" rx="6" fill="rgba(160,122,208,0.06)" stroke="rgba(160,122,208,0.15)" stroke-width=".8"/>
+        <text x="512" y="322" fill="rgba(201,168,76,.7)" font-family="'Inter',sans-serif" font-size="10" letter-spacing="1">EJEMPLO</text>
+        <text x="512" y="342" fill="rgba(230,220,192,.7)" font-family="'Crimson Pro',serif" font-size="13" font-style="italic">3² + 4² = 5²</text>
+        <text x="512" y="360" fill="rgba(230,220,192,.5)" font-family="'Crimson Pro',serif" font-size="12">9 + 16 = 25 ✓</text>
+        <text x="512" y="374" fill="rgba(201,168,76,.35)" font-family="'Inter',sans-serif" font-size="9" letter-spacing="1">TRIPLETE PITAGÓRICO</text>
+
+        <text x="350" y="410" text-anchor="middle" fill="rgba(160,122,208,0.2)" font-family="'Inter',sans-serif" font-size="9" letter-spacing="3">DEMOSTRADO FORMALMENTE POR LA ESCUELA DE PITÁGORAS · c. 540 a.C.</text>
+      </svg>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- VI LA SECTA -->
+  <section class="section fade-in" id="secta">
+    <span class="section-label">VI · La Hermandad</span>
+    <h2 class="section-title">La primera secta filosófica de la historia</h2>
+    <div class="lead">
+      <p>La comunidad pitagórica era algo sin precedentes: una escuela filosófica organizada como una hermandad religiosa con reglas de vida, rituales de iniciación, jerarquías internas y secretos doctrinales. Sus miembros renunciaban a la propiedad individual, vivían en comunidad, seguían dietas estrictas y practicaban el silencio como disciplina intelectual.</p>
+      <p>Había dos clases de miembros: los <em>acusmáticos</em>, que escuchaban las reglas y las seguían sin conocer sus razones; y los <em>matemáticos</em>, que accedían al conocimiento completo. Una estructura que recuerda más a una orden religiosa que a una escuela filosófica.</p>
+    </div>
+
+    <div class="anec-block">
+      <div class="anec-label">Las reglas de la hermandad</div>
+      <div class="anec-text">No comer habas. No comer el corazón. No romper el pan. No pisar lo sagrado. No mirar en el espejo junto a una lámpara. No levantarse de la cama sin doblar las sábanas para que no quede la forma del cuerpo. No hablar sin luz. Guardar silencio durante cinco años al ingresar. Compartir todo. No revelar las doctrinas internas bajo ninguna circunstancia.</div>
+    </div>
+    <div class="anec-block">
+      <div class="anec-label">El poder político</div>
+      <div class="anec-text">Los pitagóricos no eran solo filósofos: gobernaban. En Crotona, Síbaris, Regio y otras ciudades de la Magna Grecia, sus miembros ocuparon posiciones de poder. Pitágoras asesoraba a los gobernantes. Su comunidad era la élite intelectual y moral de la región. Eso, eventualmente, generó el odio que los destruyó.</div>
+    </div>
+    <div class="anec-block">
+      <div class="anec-label">La traición de Hipaso</div>
+      <div class="anec-text">Hipaso de Metaponto, miembro de la hermandad, descubrió que √2 es irracional —que no puede expresarse como cociente de enteros— y lo reveló públicamente. Esto destruía el fundamento de que todo es número entero. Según la leyenda, fue arrojado al mar por sus propios compañeros. Es el primer mártir de la historia de las matemáticas.</div>
+    </div>
+
+    <div class="sect-grid">
+      <div class="sect-card">
+        <div class="sect-who">Acusmáticos</div>
+        <div class="sect-role">Grado Iniciático · exterior</div>
+        <div class="sect-text">Seguían las reglas y los preceptos sin acceso al conocimiento matemático y filosófico profundo. La fe antes que la razón.</div>
+      </div>
+      <div class="sect-card">
+        <div class="sect-who">Matemáticos</div>
+        <div class="sect-role">Grado Superior · interior</div>
+        <div class="sect-text">Accedían a la doctrina completa: número, armonía, geometría, astronomía, metempsicosis. Eran los verdaderos filósofos de la escuela.</div>
+      </div>
+      <div class="sect-card">
+        <div class="sect-who">Las Mujeres</div>
+        <div class="sect-role">Dato notable para la época</div>
+        <div class="sect-text">La comunidad pitagórica admitía mujeres como miembros plenos. Teano, esposa o discípula de Pitágoras, es considerada la primera filósofa de Occidente de quien hay registro.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- VII ANÉCDOTAS -->
+  <section class="section fade-in">
+    <span class="section-label">VII · Anécdotas y Leyendas</span>
+    <h2 class="section-title">El hombre de los milagros</h2>
+    <div class="lead"><p>En torno a Pitágoras se acumuló una cantidad de leyendas que lo convierten en una figura casi sobrenatural. Él mismo las alentaba: el misterio era parte de su autoridad.</p></div>
+
+    <div class="anec-block">
+      <div class="anec-label">El muslo de oro</div>
+      <div class="anec-text">Se decía que Pitágoras tenía un muslo de oro, señal de que era un ser divino —quizás una reencarnación de Apolo. En los Juegos Olímpicos, según la leyenda, lo mostró públicamente. Difícil de verificar, fácil de imaginar en alguien con su carisma.</div>
+    </div>
+    <div class="anec-block">
+      <div class="anec-label">El río que lo saludó</div>
+      <div class="anec-text">Cruzando el río Cosas en compañía de varios discípulos, según Jámblico, el río habló: <em>"Salve, Pitágoras."</em> Sus seguidores lo oyeron. Lo interpretaron como confirmación de su naturaleza divina. Sea verdad o leyenda, habla del nivel de devoción que inspiraba.</div>
+    </div>
+    <div class="anec-block">
+      <div class="anec-label">El recuerdo de sus vidas pasadas</div>
+      <div class="anec-text">Pitágoras afirmaba recordar cuatro vidas anteriores: había sido Étalides, hijo de Hermes; luego Euforbo, que combatió en Troya; después Hermótimo, que reconoció el escudo de Euforbo en el templo de Apolo; y finalmente Pirro, pescador de Delos. Una autobiografía de reencarnaciones sin precedentes en el pensamiento griego.</div>
+    </div>
+    <div class="anec-block">
+      <div class="anec-label">La música que calmó a los borrachos</div>
+      <div class="anec-text">Encontrando a un grupo de jóvenes ebrios y violentos que amenazaban la casa de una chica, Pitágoras le pidió al flautista que cambiara de modo musical: del excitante frigio al tranquilizador espondaico. Los jóvenes se calmaron y se fueron en paz. Es la primera referencia documentada a la musicoterapia en la historia occidental.</div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- VIII FUENTES -->
+  <section class="section fade-in">
+    <span class="section-label">VIII · Fuentes y Obra</span>
+    <h2 class="section-title">Nada escrito, todo transmitido</h2>
+    <div class="lead"><p>Como Tales, Pitágoras no dejó textos. La hermandad guardó sus doctrinas en secreto. Hubo escritos atribuidos a él que circularon en la Antigüedad tardía, pero la mayoría son considerados espurios por los académicos modernos.</p></div>
+    <div class="obra-list">
+      <div class="obra-item">
+        <div class="obra-n">I</div>
+        <div class="obra-body">
+          <div class="obra-title">Aristóteles · Metafísica, Libro I (nuestra fuente más seria)</div>
+          <div class="obra-desc">Aristóteles dedica varias páginas a la doctrina pitagórica del número como principio. Es crítico pero preciso: nos da la columna vertebral de su filosofía. Escrito c. 350 a.C., casi dos siglos después de Pitágoras.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">II</div>
+        <div class="obra-body">
+          <div class="obra-title">Jámblico · Vida pitagórica (siglo III d.C.)</div>
+          <div class="obra-desc">La biografía más extensa y detallada. Escrita 800 años después de Pitágoras, es una mezcla de historia, hagiografía y invención. Fascinante como texto, peligrosa como fuente histórica.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">III</div>
+        <div class="obra-body">
+          <div class="obra-title">Porfirio · Vida de Pitágoras (siglo III d.C.)</div>
+          <div class="obra-desc">Más breve y más crítico que Jámblico. Porfirio reconoce la dificultad de separar leyenda de historia y lo dice explícitamente: una honestidad inusual para la época.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">IV</div>
+        <div class="obra-body">
+          <div class="obra-title">Diógenes Laercio · Vidas de los filósofos ilustres, Libro VIII</div>
+          <div class="obra-desc">Una colección de anécdotas, dichos, y fragmentos de otras fuentes. No siempre confiable, pero invaluable como compendio de la tradición sobre Pitágoras en la Antigüedad.</div>
+        </div>
+      </div>
+      <div class="obra-item">
+        <div class="obra-n">V</div>
+        <div class="obra-body">
+          <div class="obra-title">Versos Áureos (atribuidos, probablemente espurios)</div>
+          <div class="obra-desc">Una colección de máximas morales atribuidas a Pitágoras. Circularon ampliamente en la Antigüedad como resumen de la ética pitagórica. La mayoría de los académicos los considera escritos posteriores en su nombre.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- IX LEGADO -->
+  <section class="section fade-in" id="legado">
+    <span class="section-label">IX · Legado</span>
+    <h2 class="section-title">La cadena que nunca se rompió</h2>
+    <div class="lead">
+      <p>La influencia de Pitágoras en la historia del pensamiento occidental es tan profunda que resulta difícil de cartografiar completamente. Platón absorbió el pitagorismo hasta en la médula: el mundo de las Ideas, la inmortalidad del alma, la geometría como acceso a la verdad, la música como disciplina filosófica. El <em>Timeo</em> platónico es casi pitagórico.</p>
+      <p>Kepler, en el siglo XVII, seguía buscando la <em>armonía de las esferas</em> en sus cálculos orbitales. Einstein dijo que la física moderna es, en cierto sentido, una confirmación de la intuición pitagórica: <strong>la naturaleza tiene estructura matemática</strong>. Max Tegmark, uno de los físicos teóricos más importantes de hoy, defiende que el universo no solo está descrito por matemáticas, sino que literalmente <em>es</em> una estructura matemática. Pitágoras estaría de acuerdo.</p>
+    </div>
+
+    <div class="quote-block">
+      <blockquote>"La música es la aritmética del sonido, así como la óptica es la geometría de la luz."</blockquote>
+      <cite>— Claude Debussy · siguiendo sin saberlo la intuición pitagórica</cite>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Pythagorean_theorem_-_Ani.gif/320px-Pythagorean_theorem_-_Ani.gif" alt="Animación teorema" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Demostración visual animada del Teorema de Pitágoras</div>
+      </div>
+      <div class="img-block">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Harmonics_on_a_string.jpg/800px-Harmonics_on_a_string.jpg" alt="Armónicos en una cuerda" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <div class="img-caption">Armónicos en una cuerda · la intuición musical de Pitágoras hecha física</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sep fade-in"><span></span><i></i><span></span></div>
+
+  <!-- X VIGENCIA -->
+  <section class="section fade-in" id="vigencia">
+    <span class="section-label">X · Vigencia en 2026</span>
+    <h2 class="section-title">¿Está obsoleto Pitágoras?</h2>
+    <div class="lead">
+      <p>En matemáticas puras: <strong>no, jamás</strong>. El Teorema de Pitágoras es una verdad eterna. Se enseña en secundaria en todo el planeta, se usa en arquitectura, ingeniería, física, computación gráfica, GPS, inteligencia artificial. En 2026 hay más gente usando el teorema de Pitágoras —sin saberlo— que en cualquier otro momento de la historia.</p>
+      <p>En filosofía: su idea central —que la realidad tiene estructura matemática— es una de las posiciones más serias en la física teórica contemporánea. La hipótesis del Universo Matemático de Max Tegmark es pitagórica en su raíz. La física de cuerdas, los espacios de Hilbert, los grupos de simetría: todo sugiere que los números no solo <em>describen</em> la realidad, quizás la <em>constituyen</em>.</p>
+      <p>Su lado místico-religioso está más lejos de la academia, pero vive en la cultura: el pitagorismo influyó en la numerología, en el esoterismo occidental, en la masonería, en la New Age. Su sombra es larga e inesperada.</p>
+    </div>
+
+    <div class="relevance fade-in">
+      <div class="rel-title">Relevancia en 2026</div>
+      <div class="rel-row">
+        <div class="rel-label">Matemáticas (Teorema)</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="100"></div></div>
+        <div class="rel-val">100%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Física teórica</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="88"></div></div>
+        <div class="rel-val">88%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Historia de la filosofía</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="95"></div></div>
+        <div class="rel-val">95%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Teoría musical</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="80"></div></div>
+        <div class="rel-val">80%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Filosofía de la mente</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="55"></div></div>
+        <div class="rel-val">55%</div>
+      </div>
+      <div class="rel-row">
+        <div class="rel-label">Cultura popular y esoterismo</div>
+        <div class="rel-bar-wrap"><div class="rel-bar" data-w="70"></div></div>
+        <div class="rel-val">70%</div>
+      </div>
+    </div>
+
+    <div class="vc-wrap">
+      <div class="vc">Teorema en todos los programas de secundaria del mundo</div>
+      <div class="vc">Física teórica — Universo Matemático (Tegmark)</div>
+      <div class="vc">Teoría de la música — intervalos y armonía</div>
+      <div class="vc">Computación gráfica y videojuegos</div>
+      <div class="vc">Arquitectura y diseño estructural</div>
+      <div class="vc">GPS y triangulación satelital</div>
+      <div class="vc">Inteligencia artificial — álgebra lineal</div>
+      <div class="vc">Historia del pitagorismo — filosofía académica</div>
+    </div>
+  </section>
+
+  <!-- PAGE NAV -->
+  <div class="page-nav fade-in">
+    <a href="tales_mileto.html" class="nav-btn">← Tales de Mileto</a>
+    <a href="index.html" class="nav-btn">Índice ↑</a>
+    <a href="heraclito.html" class="nav-btn">Heráclito →</a>
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <div class="footer-phi">Π</div>
+  <p class="footer-text">
+    Filósofos en el Tiempo &nbsp;·&nbsp; Pitágoras de Samos &nbsp;·&nbsp; c. 570–495 a.C.<br>
+    Elaborado por Jorge Romano &nbsp;·&nbsp; San Luis, Argentina &nbsp;·&nbsp; 2026
+  </p>
+</footer>
+
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+/* PROGRESS + SCROLL */
+const prog=document.getElementById('prog'),btt=document.getElementById('btt'),nav=document.getElementById('topnav');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  prog.style.width=pct+'%';
+  btt.classList.toggle('show',window.scrollY>500);
+  nav.classList.toggle('scrolled',window.scrollY>60);
+},{passive:true});
+
+/* FADE IN */
+const fio=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');fio.unobserve(e.target);}});
+},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.fade-in').forEach(el=>fio.observe(el));
+
+/* RELEVANCE BARS */
+const baro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.rel-bar').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w+'%';},200);});
+      baro.unobserve(e.target);
+    }
+  });
+},{threshold:.25});
+document.querySelectorAll('.relevance').forEach(el=>baro.observe(el));
+
+/* NAV ACTIVE */
+const sections=document.querySelectorAll('section[id]'),navLinks=document.querySelectorAll('.nav-link');
+const nlObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)navLinks.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(s=>nlObs.observe(s));
+
+/* HERO CANVAS — rotating pentagon & numbers */
+const canvas=document.getElementById('heroCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,t=0;
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+resize();window.addEventListener('resize',resize);
+
+function drawHero(){
+  ctx.clearRect(0,0,W,H);
+  const cx=W/2,cy=H*0.42;
+
+  // Rotating pentagon (pentagram)
+  for(let ring=0;ring<3;ring++){
+    const r=80+ring*55,sides=5;
+    ctx.beginPath();
+    for(let i=0;i<=sides;i++){
+      const angle=(i/sides)*Math.PI*2+t*(0.15-ring*0.04)-Math.PI/2;
+      const x=cx+Math.cos(angle)*r,y=cy+Math.sin(angle)*r;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=`rgba(160,122,208,${0.12-ring*0.03})`;
+    ctx.lineWidth=.8;
+    ctx.stroke();
+  }
+
+  // Pentagram (star inside)
+  const rp=80;
+  ctx.beginPath();
+  for(let i=0;i<5;i++){
+    const a=(i*4/5)*Math.PI*2+t*0.15-Math.PI/2;
+    const x=cx+Math.cos(a)*rp,y=cy+Math.sin(a)*rp;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.strokeStyle='rgba(160,122,208,0.18)';
+  ctx.lineWidth=.8;
+  ctx.stroke();
+
+  // Floating numbers
+  const nums=['1','2','3','4','√2','π','φ','∞','5²','3²','4²'];
+  nums.forEach((n,i)=>{
+    const angle=(i/nums.length)*Math.PI*2+t*(0.08+i*0.005);
+    const r=140+Math.sin(t*0.3+i)*20;
+    const x=cx+Math.cos(angle)*r,y=cy+Math.sin(angle)*r;
+    const alpha=0.12+Math.sin(t*0.5+i)*0.08;
+    ctx.fillStyle=`rgba(201,168,76,${alpha})`;
+    ctx.font=`${10+i%3*2}px 'Playfair Display',serif`;
+    ctx.textAlign='center';
+    ctx.fillText(n,x,y);
+  });
+
+  // Soft glow
+  const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,200);
+  grd.addColorStop(0,'rgba(58,42,92,0.12)');
+  grd.addColorStop(1,'transparent');
+  ctx.fillStyle=grd;
+  ctx.fillRect(0,0,W,H);
+
+  t+=0.012;
+  requestAnimationFrame(drawHero);
+}
+drawHero();
+</script>
+</body>
+</html>
