@@ -1,0 +1,216 @@
+{
+  "config": {
+    "hero_animation": "fire",
+    "color_primary": "#c45c1a",
+    "color_secondary": "#e8832a",
+    "color_glow": "rgba(196, 92, 26, 0.25)",
+    "color_bg_hero": "#0e0600",
+    "nav_prev": { "nombre": "Pitágoras", "href": "pitagoras.html" },
+    "nav_next": { "nombre": "Parménides", "href": "filosofo.html?data=parmenides.json" }
+  },
+
+  "meta": {
+    "titulo_pagina": "Heráclito de Éfeso — Filósofos en el Tiempo",
+    "og_description": "El filósofo del fuego y el flujo perpetuo. Todo cambia, nada permanece."
+  },
+
+  "hero": {
+    "eyebrow": "Presocrático · Éfeso · c. 535–475 a.C.",
+    "nombre": "Heráclito",
+    "subtitulo": "de Éfeso",
+    "frase_hero": "No puedes bañarte dos veces en el mismo río.",
+    "bajada": "El más oscuro de los filósofos griegos. Desdeñó a la multitud, insultó a sus colegas y escribió en un estilo deliberadamente críptico. Y aun así, cambió para siempre la manera en que Occidente piensa el cambio, el tiempo y la contradicción."
+  },
+
+  "stats": [
+    { "valor": "c. 535", "label": "Año de nacimiento (a.C.)" },
+    { "valor": "~40",    "label": "Fragmentos conservados" },
+    { "valor": "3",      "label": "Siglos de influencia directa" },
+    { "valor": "∞",      "label": "Ríos en los que no puedes bañarte dos veces" }
+  ],
+
+  "secciones": [
+    {
+      "id": "quien-fue",
+      "tipo": "texto_intro",
+      "titulo": "¿Quién fue Heráclito?",
+      "icono": "Φ",
+      "contenido": [
+        "Heráclito de Éfeso (c. 535–475 a.C.) fue un filósofo presocrático nacido en la ciudad de Éfeso, en la costa de Jonia (actual Turquía). A diferencia de sus contemporáneos milesios, que buscaban el <em>arjé</em> —el principio primordial— en elementos materiales concretos, Heráclito propuso algo más radical: la realidad no es una sustancia fija sino un proceso dinámico gobernado por el <strong>Logos</strong>, una razón o ley universal que organiza la tensión permanente entre opuestos.",
+        "Era de familia aristocrática y, según se dice, renunció al poder político que le correspondía por linaje. Desdeñaba profundamente a la mayoría: criticó a Homero, a Hesíodo, a Pitágoras y al propio Tales. Su estilo de escritura era oscuro y aforístico por elección propia —quería ser entendido solo por quienes merecieran entenderlo—, lo que le valió en la Antigüedad el apodo de <em>ho Skoteinos</em>: el Oscuro.",
+        "Se dice que hacia el final de su vida se retiró a las montañas, vivió como ermitaño y murió en circunstancias extrañas. Las fuentes antiguas —siempre poco confiables— mencionan que murió de hidropesía, quizás después de cubrirse de estiércol de vaca creyendo que el calor lo curaría. Una muerte digna de un filósofo que amaba las paradojas."
+      ]
+    },
+
+    {
+      "id": "cronologia",
+      "tipo": "timeline",
+      "titulo": "Cronología",
+      "items": [
+        { "fecha": "c. 535 a.C.", "evento": "Nacimiento en Éfeso, Jonia (actual costa turca del Egeo)." },
+        { "fecha": "c. 500 a.C.", "evento": "Escribe su único libro, depositado según la tradición en el templo de Ártemis de Éfeso. Estilo deliberadamente críptico." },
+        { "fecha": "c. 500 a.C.", "evento": "Rechaza el cargo político que le corresponde por linaje aristocrático. Prefiere la filosofía al poder." },
+        { "fecha": "c. 490 a.C.", "evento": "Período de retiro. Se aparta de la vida pública y social de Éfeso. Vive en soledad en las montañas del entorno." },
+        { "fecha": "c. 475 a.C.", "evento": "Muerte, probablemente por hidropesía. Las fuentes antiguas ofrecen versiones contradictorias y legendarias." },
+        { "fecha": "s. IV a.C.",  "evento": "Platón y Aristóteles lo citan extensamente, aunque con críticas. Su influencia en el pensamiento griego clásico es ya evidente." },
+        { "fecha": "s. III a.C.", "evento": "Los estoicos adoptan su concepto de Logos y fuego como base de su cosmología. Heráclito se convierte en referencia fundacional del estoicismo." },
+        { "fecha": "s. XIX d.C.", "evento": "Hegel lo rehabilita como precursor de la dialéctica. Lo llama 'el primero en enunciar la naturaleza de lo infinito'." },
+        { "fecha": "s. XIX–XX",   "evento": "Nietzsche lo admira profundamente. Lo considera el único filósofo presocrático a la altura de los griegos trágicos." }
+      ]
+    },
+
+    {
+      "id": "ideas",
+      "tipo": "cards_ideas",
+      "titulo": "Sus ideas fundamentales",
+      "ideas": [
+        {
+          "icono": "🔥",
+          "titulo": "El fuego como arjé",
+          "texto": "A diferencia de Tales (agua) o Anaxímenes (aire), Heráclito propuso el <strong>fuego</strong> como principio fundamental. No por ser una sustancia estática, sino porque el fuego es el proceso mismo: consume, transforma, nunca es igual a sí mismo. El cosmos es un fuego eterno que se enciende y se apaga según medida."
+        },
+        {
+          "icono": "🌊",
+          "titulo": "Panta rhei — Todo fluye",
+          "texto": "La frase más célebre atribuida a Heráclito, aunque probablemente no suya textualmente. El río es su metáfora central: <em>no puedes bañarte dos veces en el mismo río</em>, porque tanto el agua como tú han cambiado. La realidad no es una colección de cosas fijas sino un flujo perpetuo de procesos."
+        },
+        {
+          "icono": "⚡",
+          "titulo": "La unidad de los opuestos",
+          "texto": "Lo más original de Heráclito: los opuestos no se excluyen sino que se <strong>necesitan mutuamente</strong>. El día necesita la noche, la salud necesita la enfermedad, la guerra necesita la paz. Sin tensión entre contrarios no hay realidad. El arco y la lira —sus metáforas favoritas— solo funcionan gracias a la tensión."
+        },
+        {
+          "icono": "λ",
+          "titulo": "El Logos",
+          "texto": "El principio racional que gobierna el cambio universal. El Logos no es un dios personal sino una <strong>ley cósmica</strong>: la razón que estructura la tensión de opuestos y hace del cambio algo ordenado, no caótico. La mayoría de los humanos vive sin percibir el Logos, como dormidos."
+        },
+        {
+          "icono": "⚔️",
+          "titulo": "La guerra como padre de todo",
+          "texto": "Uno de sus aforismos más provocadores: <em>la guerra es el padre de todas las cosas</em>. No glorifica la violencia: afirma que el <strong>conflicto es constitutivo de la realidad</strong>. Sin tensión entre fuerzas opuestas, el cosmos se disolvería. La armonía no es ausencia de conflicto sino conflicto en equilibrio."
+        },
+        {
+          "icono": "😴",
+          "titulo": "El desprecio por la mayoría",
+          "texto": "Heráclito creía que la mayoría de los humanos vive dormida, incapaz de percibir el Logos. Sus contemporáneos —incluyendo a filósofos famosos— eran para él meros acumuladores de datos sin comprensión real. <em>La erudición no enseña inteligencia</em>. Un aristocratismo intelectual que no se disculpaba."
+        }
+      ]
+    },
+
+    {
+      "id": "fragmentos",
+      "tipo": "citas",
+      "titulo": "Fragmentos célebres",
+      "citas": [
+        {
+          "texto": "No puedes bañarte dos veces en el mismo río, porque siempre corren aguas nuevas.",
+          "fuente": "Fragmento 91 (Diels-Kranz)"
+        },
+        {
+          "texto": "La guerra es el padre de todas las cosas y el rey de todas. A unos los muestra como dioses, a otros como hombres; a unos los hace esclavos, a otros libres.",
+          "fuente": "Fragmento 53"
+        },
+        {
+          "texto": "El camino hacia arriba y el camino hacia abajo son uno y el mismo.",
+          "fuente": "Fragmento 60"
+        },
+        {
+          "texto": "La erudición no enseña inteligencia; si no, se la habría enseñado a Hesíodo y a Pitágoras.",
+          "fuente": "Fragmento 40"
+        },
+        {
+          "texto": "Los que duermen son obreros y colaboradores de lo que ocurre en el mundo.",
+          "fuente": "Fragmento 75"
+        },
+        {
+          "texto": "El alma seca es la más sabia y la mejor.",
+          "fuente": "Fragmento 118"
+        },
+        {
+          "texto": "Para Dios todas las cosas son bellas, buenas y justas; los hombres consideran unas injustas y otras justas.",
+          "fuente": "Fragmento 102"
+        },
+        {
+          "texto": "Yo me busqué a mí mismo.",
+          "fuente": "Fragmento 101"
+        }
+      ]
+    },
+
+    {
+      "id": "escuela",
+      "tipo": "comparativo",
+      "titulo": "Heráclito y sus contemporáneos presocráticos",
+      "descripcion": "Heráclito se diferenciaba radicalmente de sus colegas jonios no solo en sus respuestas sino en el tono: los despreciaba abiertamente.",
+      "columnas": ["Filósofo", "Arjé propuesto", "Método", "Relación con Heráclito"],
+      "filas": [
+        ["Tales de Mileto",   "Agua",           "Observación empírica",        "Criticado: 'la erudición no enseña inteligencia'"],
+        ["Anaxímenes",        "Aire",            "Razonamiento analógico",      "Ignorado en los fragmentos conservados"],
+        ["Pitágoras",         "Número / armonía","Comunidad esotérica",         "Criticado duramente por Heráclito"],
+        ["Parménides",        "El Ser inmutable","Lógica deductiva pura",       "Posición opuesta: para Heráclito todo cambia"],
+        ["Heráclito",         "Fuego / Logos",   "Aforismo críptico, paradoja", "—"]
+      ]
+    },
+
+    {
+      "id": "anecdotas",
+      "tipo": "anecdotas",
+      "titulo": "Anécdotas y leyendas",
+      "items": [
+        {
+          "titulo": "El libro en el templo",
+          "texto": "Según la tradición, Heráclito depositó su único libro en el templo de Ártemis de Éfeso, uno de los más importantes del mundo antiguo. Lo eligió deliberadamente como lugar de custodia para que solo los iniciados dignos pudieran acceder a él. Alejandro Magno, años después, quiso recuperarlo. Ya no estaba."
+        },
+        {
+          "titulo": "El rechazo al poder",
+          "texto": "Heráclito era de familia noble y tenía derecho hereditario al título de 'rey' (basileús) de Éfeso, un cargo religioso y político. Lo cedió a su hermano. Prefería la filosofía. Cuando los efesios le pidieron que les diera leyes, se negó diciendo que ya tenían una constitución suficientemente mala."
+        },
+        {
+          "titulo": "La muerte por estiércol",
+          "texto": "Diógenes Laercio cuenta que Heráclito, enfermo de hidropesía, pidió a los médicos si podían secar la humedad excesiva de su cuerpo. Como no entendieron su pregunta en términos filosóficos, decidió curarse solo: se cubrió de estiércol de buey creyendo que el calor evaporaría la humedad. Murió así, al cabo de un día. Irónico final para quien amaba el fuego como principio de todo."
+        },
+        {
+          "titulo": "El llorón y el riente",
+          "texto": "En la tradición posterior, Heráclito fue llamado el 'filósofo llorón' en contraste con Demócrito, el 'filósofo riente'. Heráclito lloraba por la estupidez humana; Demócrito reía de ella. Ambas actitudes, en realidad, parten del mismo diagnóstico: la mayoría de los hombres vive sin comprender el Logos."
+        }
+      ]
+    },
+
+    {
+      "id": "legado",
+      "tipo": "legado",
+      "titulo": "Legado e influencia",
+      "bloques": [
+        {
+          "titulo": "Los estoicos",
+          "texto": "La escuela estoica, fundada por Zenón de Citio en el siglo III a.C., adoptó directamente los conceptos heraclíteos de <strong>Logos</strong> y <strong>fuego</strong> como fundamentos de su cosmología. Para los estoicos, el universo está penetrado por un Logos divino —idéntico al fuego racional de Heráclito— que lo organiza y sostiene. Sin Heráclito no hay estoicismo."
+        },
+        {
+          "titulo": "Hegel y la dialéctica",
+          "texto": "Hegel consideró a Heráclito su precursor más directo. La dialéctica hegeliana —tesis, antítesis, síntesis— es una elaboración sistemática de la <strong>unidad de los opuestos</strong> de Heráclito. Hegel escribió: 'No hay una sola proposición de Heráclito que no haya recogido en mi Lógica.'"
+        },
+        {
+          "titulo": "Nietzsche",
+          "texto": "Nietzsche amaba a Heráclito. Lo veía como el único presocrático que había comprendido la tragedia de la existencia sin escapar hacia consuelos metafísicos. El <strong>eterno retorno</strong> nietzscheano tiene raíces en el cosmos heraclíteo: un fuego que se enciende y apaga eternamente según medida."
+        },
+        {
+          "titulo": "La física moderna",
+          "texto": "El físico Werner Heisenberg señaló que la física cuántica —donde las partículas no tienen estados fijos sino probabilidades de estados— resuena con Heráclito más que con Parménides. El mundo no es un ser fijo: es un proceso. La materia no es: <strong>deviene</strong>."
+        }
+      ]
+    },
+
+    {
+      "id": "vigencia",
+      "tipo": "vigencia",
+      "titulo": "Heráclito hoy",
+      "texto": "En un mundo donde el cambio tecnológico, político y climático es la única constante, Heráclito suena más contemporáneo que nunca. Su diagnóstico sobre la mayoría que vive dormida, incapaz de percibir los patrones profundos bajo la superficie de los eventos, describe con precisión la saturación informativa sin comprensión. El Logos sigue ahí. Seguimos sin escucharlo.",
+      "puntos": [
+        "La teoría del caos y los sistemas dinámicos son matemáticamente heraclíteos: orden emergente del flujo.",
+        "La filosofía del proceso (Whitehead) retoma directamente la ontología del devenir.",
+        "El pensamiento sistémico en ecología, economía y ciencias sociales: todo está interconectado, todo cambia.",
+        "Zygmunt Bauman —que ya está en tu índice— y su 'modernidad líquida' es Heráclito aplicado al siglo XXI."
+      ]
+    }
+  ]
+}
